@@ -46,12 +46,10 @@ jobs:
       - name: Remove bootstrap workflow
         run: rm .github/workflows/bootstrap.yml
 
-      - name: Format synchronized repository
-        run: bun run format
-
       - name: Validate bootstrap
         run: |
           bun run build
+          bun run format
           bun run typecheck
           bun run lint
           bun run knip:check
