@@ -8,7 +8,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "bun x tsc --noEmit -p tsconfig.json"
+    "typecheck": "bun x tsc --noEmit -p tsconfig.json",
+    "lint": "ankhorage-eslint . --max-warnings=0",
+    "lint:fix": "ankhorage-eslint . --fix --max-warnings=0",
+    "format": "ankhorage-prettier --write .",
+    "format:check": "ankhorage-prettier --check .",
+    "knip:check": "ankhorage-knip"
   },
   "dependencies": {
     "next": "^16.3.8",
@@ -20,6 +25,8 @@
     "@types/node": "^26.6.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "typescript": "~6.0.3"
-  }
+    "typescript": "~6.0.3",
+    "@types/bun": "^1.4.2"
+  },
+  "packageManager": "bun@1.4.2"
 }
