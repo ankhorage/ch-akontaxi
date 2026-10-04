@@ -19,8 +19,8 @@ export function Hero() {
         <p className="eyebrow">Ihr Taxi in Wetzikon</p>
         <h1 id="hero-title">Persönlich. Lokal. Direkt erreichbar.</h1>
         <p className="hero__lead">
-          AKON TAXI ist Ihr direkter Ansprechpartner für Fahrten in Wetzikon und im
-          Zürcher Oberland.
+          AKON TAXI ist Ihr direkter Ansprechpartner für Fahrten in Wetzikon und im Zürcher
+          Oberland.
         </p>
         <div className="hero__actions">
           <a className="button" href={BUSINESS.phoneHref}>
