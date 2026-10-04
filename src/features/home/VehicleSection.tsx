@@ -16,8 +16,8 @@ export function VehicleSection() {
         <p className="eyebrow">Das Fahrzeug</p>
         <h2>Genug Raum für eine entspannte Fahrt.</h2>
         <p>
-          Der Fahrzeugbereich zeigt bewusst das tatsächliche Taxi als Mittelpunkt der Marke.
-          Die finale Version übernimmt hier eines der aufbereiteten Originalfotos.
+          Der Fahrzeugbereich zeigt bewusst das tatsächliche Taxi als Mittelpunkt der Marke. Die
+          finale Version übernimmt hier eines der aufbereiteten Originalfotos.
         </p>
         <div className="vehicle-section__note">
           <span aria-hidden="true">↗</span>
