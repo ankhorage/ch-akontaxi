@@ -1,4 +1,6 @@
-/*** Render the empty application shell before the first product feature is implemented. */
-export default function HomePage() {
-  return <main />;
+import { HomePage } from '../features/home/HomePage';
+
+/*** Render the public homepage route. */
+export default function Page() {
+  return <HomePage />;
 }

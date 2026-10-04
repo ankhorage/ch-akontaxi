@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9AA4AD"/><stop offset="1" stop-color="#D8D7D0"/></linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#262626"/><stop offset="1" stop-color="#111"/></linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#59626B"/><stop offset="1" stop-color="#1D2328"/></linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <path d="M0 180h1070l270 170H0Z" fill="#343434"/>
+  <g fill="#6A1F22"><rect x="120" y="180" width="24" height="400"/><rect x="450" y="180" width="24" height="400"/><rect x="780" y="180" width="24" height="400"/></g>
+  <rect y="545" width="1600" height="355" fill="url(#road)"/>
+  <path d="M0 650h1600" stroke="#555" stroke-width="3"/>
+  <path d="M1130 900 1510 545" stroke="#FFD100" stroke-width="8" opacity=".42"/>
+  <g transform="translate(610 418)">
+    <ellipse cx="320" cy="286" rx="352" ry="32" fill="#000" opacity=".32"/>
+    <path d="M45 185 96 91c19-34 56-55 96-55h270c39 0 74 17 98 47l75 93 31 19v79H15v-59Z" fill="#F6F6F3"/>
+    <path d="m153 62 47-6h255c31 0 59 13 79 37l56 71H118Z" fill="url(#glass)"/>
+    <path d="M336 56v108M494 75l-5 89" stroke="#111" stroke-width="8" opacity=".8"/>
+    <path d="M22 210h641" stroke="#D1D1CD" stroke-width="5"/>
+    <rect x="286" y="8" width="106" height="42" rx="5" fill="#FFD100"/>
+    <text x="339" y="37" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="27" fill="#111">TAXI</text>
+    <g fill="#151515"><circle cx="154" cy="274" r="57"/><circle cx="536" cy="274" r="57"/></g>
+    <g fill="#BFC2C2"><circle cx="154" cy="274" r="34"/><circle cx="536" cy="274" r="34"/></g>
+    <g fill="#555"><circle cx="154" cy="274" r="9"/><circle cx="536" cy="274" r="9"/></g>
+    <path d="M50 194h55l-15 35H37Z" fill="#1E2327"/>
+    <path d="M588 176h47l21 26h-62Z" fill="#B8CBD7"/>
+  </g>
+  <rect width="1600" height="900" fill="none" stroke="#000" stroke-width="1"/>
+</svg>
