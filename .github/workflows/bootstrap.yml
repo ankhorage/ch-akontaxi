@@ -1,0 +1,54 @@
+name: Bootstrap
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Synchronize Ankhorage Devtools
+        run: bunx @ankhorage/ankh@0.11.1 devtools sync .
+
+      - name: Remove bootstrap workflow
+        run: rm .github/workflows/bootstrap.yml
+
+      - name: Format synchronized repository
+        run: bun run format
+
+      - name: Validate bootstrap
+        run: |
+          bun run build
+          bun run typecheck
+          bun run lint
+          bun run knip:check
+          bun run format:check
+
+      - name: Commit synchronized repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "chore: sync devtools"
+          git push origin HEAD:main
