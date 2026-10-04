@@ -6,12 +6,7 @@ interface BrandLogoProps {
 export function BrandLogo({ compact = false }: BrandLogoProps) {
   return (
     <span className="brand-logo" aria-label="AKON TAXI">
-      <svg
-        className="brand-logo__mark"
-        viewBox="0 0 120 100"
-        role="img"
-        aria-hidden="true"
-      >
+      <svg className="brand-logo__mark" viewBox="0 0 120 100" role="img" aria-hidden="true">
         <path
           className="brand-logo__letter"
           fillRule="evenodd"
