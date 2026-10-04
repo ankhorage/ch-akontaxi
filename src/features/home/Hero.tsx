@@ -1,19 +1,33 @@
-import Image from 'next/image';
+import { getImageProps } from 'next/image';
 
 import { BUSINESS } from '../../constants/business';
 
-/*** Render the homepage hero with the primary phone conversion path. */
+const DESKTOP_HERO = getImageProps({
+  src: '/images/hero-desktop.avif',
+  alt: 'Weisser VW Touran von AKON TAXI am Bahnhof Wetzikon',
+  width: 1600,
+  height: 900,
+  priority: true,
+  sizes: '100vw',
+}).props;
+
+const MOBILE_HERO = getImageProps({
+  src: '/images/hero-mobile.avif',
+  alt: '',
+  width: 900,
+  height: 1600,
+  priority: true,
+  sizes: '100vw',
+}).props;
+
+/*** Render the homepage hero with responsive real-world taxi photography. */
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <Image
-        className="hero__image"
-        src="/images/hero-taxi.svg"
-        alt="Illustration eines weissen AKON Taxis am Bahnhof Wetzikon"
-        fill
-        priority
-        sizes="100vw"
-      />
+      <picture className="hero__media">
+        <source media="(max-width: 860px)" srcSet={MOBILE_HERO.srcSet} />
+        <img {...DESKTOP_HERO} className="hero__image" />
+      </picture>
       <div className="hero__overlay" />
       <div className="hero__content">
         <p className="eyebrow">Ihr Taxi in Wetzikon</p>
