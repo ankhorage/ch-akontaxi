@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   bootstrap:
-    if: github.event.head_commit.message != 'chore: sync devtools'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,6 +27,11 @@ jobs:
 
       - name: Synchronize Ankhorage Devtools
         run: bunx @ankhorage/ankh@0.11.1 devtools sync .
+
+      - name: Capture managed workflows
+        run: |
+          echo "CI_B64=$(base64 -w0 .github/workflows/ci.yml)"
+          echo "RENOVATE_B64=$(base64 -w0 .github/workflows/renovate.yml)"
 
       - name: Configure Knip entrypoints
         run: |
