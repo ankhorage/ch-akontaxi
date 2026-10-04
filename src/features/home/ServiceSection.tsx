@@ -23,8 +23,8 @@ export function ServiceSection() {
         <p className="eyebrow">Fahrservice</p>
         <h2>Ein Taxi. Ein direkter Kontakt.</h2>
         <p>
-          Wenn Sie eine Fahrt planen oder ein Taxi benötigen, erreichen Sie AKON TAXI
-          ohne Umweg direkt unter {BUSINESS.phoneDisplay}.
+          Wenn Sie eine Fahrt planen oder ein Taxi benötigen, erreichen Sie AKON TAXI ohne Umweg
+          direkt unter {BUSINESS.phoneDisplay}.
         </p>
       </div>
       <div className="service-grid">
