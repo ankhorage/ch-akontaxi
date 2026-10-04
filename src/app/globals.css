@@ -170,10 +170,17 @@ a {
   isolation: isolate;
 }
 
+.hero__media {
+  inset: 0;
+  position: absolute;
+  z-index: -3;
+}
+
 .hero__image {
+  height: 100%;
   object-fit: cover;
   object-position: 50% 58%;
-  z-index: -3;
+  width: 100%;
 }
 
 .hero__overlay {
@@ -457,28 +464,30 @@ a {
   }
 
   .hero {
-    min-height: 670px;
+    align-items: start;
+    min-height: 800px;
   }
 
   .hero__image {
-    object-position: 58% center;
+    object-position: 50% center;
   }
 
   .hero__overlay {
     background: linear-gradient(
-      0deg,
-      rgb(5 5 5 / 90%) 0%,
-      rgb(5 5 5 / 45%) 68%,
-      rgb(5 5 5 / 18%) 100%
+      180deg,
+      rgb(5 5 5 / 88%) 0%,
+      rgb(5 5 5 / 66%) 38%,
+      rgb(5 5 5 / 12%) 64%,
+      rgb(5 5 5 / 42%) 100%
     );
   }
 
   .hero__content {
-    padding: 86px 22px 48px;
+    padding: 68px 22px 330px;
   }
 
   .hero h1 {
-    font-size: clamp(43px, 13vw, 68px);
+    font-size: clamp(42px, 11.5vw, 58px);
   }
 
   .trust-strip {
