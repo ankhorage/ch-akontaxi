@@ -28,6 +28,21 @@ jobs:
       - name: Synchronize Ankhorage Devtools
         run: bunx @ankhorage/ankh@0.11.1 devtools sync .
 
+      - name: Configure Knip entrypoints
+        run: |
+          cat > knip.config.ts <<'EOF'
+          import { createKnipConfig } from '@ankhorage/devtools/knip';
+
+          export default createKnipConfig({
+            entry: [
+              '.prettierrc.js',
+              'eslint.config.mjs',
+              'eslint.local.config.mjs',
+              'prettier.local.config.js',
+            ],
+          });
+          EOF
+
       - name: Remove bootstrap workflow
         run: rm .github/workflows/bootstrap.yml
 
