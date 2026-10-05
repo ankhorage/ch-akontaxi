@@ -1,0 +1,41 @@
+name: Rebuild photo assets
+
+on:
+  push:
+    branches:
+      - fix/photo-assets
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    if: github.event.head_commit.message != 'fix: restore valid photo assets'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: fix/photo-assets
+          fetch-depth: 0
+
+      - name: Rebuild assets
+        run: |
+          cat .asset-staging/hero-desktop.*.b64 | base64 --decode > public/images/hero-desktop.avif
+          cat .asset-staging/hero-mobile.*.b64 | base64 --decode > public/images/hero-mobile.avif
+          cat .asset-staging/vehicle.*.b64 | base64 --decode > public/images/vehicle.avif
+
+      - name: Validate assets
+        run: |
+          test "$(stat -c%s public/images/hero-desktop.avif)" -eq 12916
+          test "$(stat -c%s public/images/hero-mobile.avif)" -eq 9049
+          test "$(stat -c%s public/images/vehicle.avif)" -eq 11563
+          file public/images/*.avif | grep -c 'AVIF Image' | grep -q '^3$'
+
+      - name: Commit assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/images/hero-desktop.avif public/images/hero-mobile.avif public/images/vehicle.avif
+          git commit -m "fix: restore valid photo assets"
+          git push origin HEAD:fix/photo-assets
