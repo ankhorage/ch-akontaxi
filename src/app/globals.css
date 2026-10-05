@@ -179,10 +179,16 @@ a {
 }
 
 .hero__image {
-  height: 100%;
   object-fit: cover;
-  object-position: 50% 58%;
-  width: 100%;
+}
+
+.hero__image--desktop {
+  display: block;
+  object-position: 50% 55%;
+}
+
+.hero__image--mobile {
+  display: none;
 }
 
 .hero__overlay {
@@ -472,7 +478,12 @@ a {
     min-height: 720px;
   }
 
-  .hero__image {
+  .hero__image--desktop {
+    display: none;
+  }
+
+  .hero__image--mobile {
+    display: block;
     object-position: 50% 58%;
   }
 

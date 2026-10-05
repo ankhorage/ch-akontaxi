@@ -1,33 +1,29 @@
-import { getImageProps } from 'next/image';
+import Image from 'next/image';
 
 import { BUSINESS } from '../../constants/business';
 
-const DESKTOP_HERO = getImageProps({
-  src: '/images/hero-desktop.avif',
-  alt: 'Weisser VW Touran von AKON TAXI am Bahnhof Wetzikon',
-  width: 1600,
-  height: 900,
-  priority: true,
-  sizes: '100vw',
-}).props;
-
-const MOBILE_HERO = getImageProps({
-  src: '/images/hero-mobile.avif',
-  alt: '',
-  width: 900,
-  height: 1600,
-  priority: true,
-  sizes: '100vw',
-}).props;
-
-/*** Render the homepage hero with responsive real-world taxi photography. */
+/*** Render the homepage hero with explicit desktop and portrait mobile photography. */
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <picture className="hero__media">
-        <source media="(max-width: 860px)" srcSet={MOBILE_HERO.srcSet} />
-        <img {...DESKTOP_HERO} className="hero__image" />
-      </picture>
+      <div className="hero__media" aria-hidden="true">
+        <Image
+          className="hero__image hero__image--desktop"
+          src="/images/hero-desktop.webp"
+          alt=""
+          fill
+          priority
+          sizes="(max-width: 860px) 1px, 100vw"
+        />
+        <Image
+          className="hero__image hero__image--mobile"
+          src="/images/hero-mobile.webp"
+          alt=""
+          fill
+          priority
+          sizes="(max-width: 860px) 100vw, 1px"
+        />
+      </div>
       <div className="hero__overlay" />
       <div className="hero__content">
         <p className="eyebrow">Ihr Taxi in Wetzikon</p>
