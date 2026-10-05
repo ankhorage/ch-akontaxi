@@ -9,6 +9,7 @@ export function VehicleSection() {
           src="/images/vehicle.avif"
           alt="Weisser VW Touran von AKON TAXI in Wetzikon"
           fill
+          priority
           sizes="(max-width: 760px) 100vw, 52vw"
         />
       </div>
