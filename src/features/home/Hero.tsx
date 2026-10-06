@@ -12,7 +12,7 @@ export function Hero() {
           src="/images/hero-desktop.webp"
           alt=""
           fill
-          priority
+          fetchPriority="high"
           sizes="(max-width: 860px) 1px, 100vw"
         />
         <Image
@@ -20,16 +20,16 @@ export function Hero() {
           src="/images/hero-mobile.webp"
           alt=""
           fill
-          priority
+          fetchPriority="high"
           sizes="(max-width: 860px) 100vw, 1px"
         />
       </div>
       <div className="hero__overlay" />
       <div className="hero__content">
         <p className="eyebrow">Ihr Taxi in Wetzikon</p>
-        <h1 id="hero-title">Persönlich. Lokal. Direkt erreichbar.</h1>
+        <h1 id="hero-title">Taxi Wetzikon. Persönlich. Lokal. Direkt erreichbar.</h1>
         <p className="hero__lead">
-          AKON TAXI ist Ihr direkter Ansprechpartner für Fahrten in Wetzikon und im Zürcher
+          AKON TAXI ist Ihr direkter Ansprechpartner für Taxifahrten in Wetzikon und im Zürcher
           Oberland.
         </p>
         <div className="hero__actions">

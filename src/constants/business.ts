@@ -12,7 +12,7 @@ export const BUSINESS = {
   seo: {
     title: 'Taxi Wetzikon | AKON TAXI',
     description:
-      'AKON TAXI – Ihr direkter Ansprechpartner für Taxifahrten in Wetzikon und im Zürcher Oberland.',
+      'Taxi in Wetzikon und im Zürcher Oberland: AKON TAXI ist direkt unter 077 236 60 68 erreichbar.',
   },
   assets: {
     logo: `${BUSINESS_URL}/icon.svg`,

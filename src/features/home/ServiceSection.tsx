@@ -2,16 +2,16 @@ import { BUSINESS } from '../../constants/business';
 
 const SERVICES = [
   {
-    title: 'Lokaler Fahrservice',
-    text: 'Für Fahrten ab, nach und rund um Wetzikon.',
+    title: 'Taxi in Wetzikon',
+    text: 'Für Abholungen, Ziele und kurze Wege in Wetzikon.',
   },
   {
-    title: 'Direkte Anfrage',
+    title: 'Direkt telefonisch buchen',
     text: 'Abholort, Ziel und Zeitpunkt persönlich am Telefon klären.',
   },
   {
-    title: 'Flexibel unterwegs',
-    text: 'Fahrten im Zürcher Oberland nach individueller Absprache.',
+    title: 'Zürcher Oberland',
+    text: 'Fahrten in der Region nach individueller Absprache.',
   },
 ] as const;
 
@@ -21,10 +21,10 @@ export function ServiceSection() {
     <section className="section section--light" id="fahrservice">
       <div className="section__intro">
         <p className="eyebrow">Fahrservice</p>
-        <h2>Ein Taxi. Ein direkter Kontakt.</h2>
+        <h2>Taxi und Fahrservice rund um Wetzikon.</h2>
         <p>
-          Wenn Sie eine Fahrt planen oder ein Taxi benötigen, erreichen Sie AKON TAXI ohne Umweg
-          direkt unter {BUSINESS.phoneDisplay}.
+          Wenn Sie eine Fahrt in Wetzikon oder im Zürcher Oberland planen, erreichen Sie AKON TAXI
+          ohne Umweg direkt unter {BUSINESS.phoneDisplay}.
         </p>
       </div>
       <div className="service-grid">
@@ -35,6 +35,14 @@ export function ServiceSection() {
             <p>{service.text}</p>
           </article>
         ))}
+      </div>
+      <div className="service-area-note">
+        <strong>Ziel nicht aufgeführt?</strong>
+        <p>
+          Nennen Sie Abholort, Ziel und Zeitpunkt direkt am Telefon. AKON TAXI bestätigt persönlich,
+          ob die gewünschte Fahrt möglich ist.
+        </p>
+        <a href={BUSINESS.phoneHref}>Anfragen: {BUSINESS.phoneDisplay}</a>
       </div>
     </section>
   );

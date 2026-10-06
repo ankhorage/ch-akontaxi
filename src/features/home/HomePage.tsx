@@ -1,4 +1,5 @@
 import { BUSINESS } from '../../constants/business';
+import { createTaxiStructuredData } from '../seo/createTaxiStructuredData';
 import { ContactSection } from './ContactSection';
 import { Hero } from './Hero';
 import { ServiceSection } from './ServiceSection';
@@ -7,32 +8,13 @@ import { SiteHeader } from './SiteHeader';
 import { TrustStrip } from './TrustStrip';
 import { VehicleSection } from './VehicleSection';
 
-const STRUCTURED_DATA = {
-  '@context': 'https://schema.org',
-  '@type': 'TaxiService',
-  '@id': `${BUSINESS.url}/#taxi-service`,
-  name: BUSINESS.name,
-  url: BUSINESS.url,
-  telephone: BUSINESS.phoneInternational,
-  logo: BUSINESS.assets.logo,
-  image: BUSINESS.assets.socialImage,
-  areaServed: [
-    {
-      '@type': 'City',
-      name: BUSINESS.locality,
-    },
-    {
-      '@type': 'AdministrativeArea',
-      name: BUSINESS.region,
-    },
-  ],
-};
-
 /*** Compose the public AKON TAXI homepage from focused presentation sections. */
 export function HomePage() {
+  const structuredData = createTaxiStructuredData();
+
   return (
     <>
-      <script type="application/ld+json">{JSON.stringify(STRUCTURED_DATA)}</script>
+      <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       <div className="page-shell" id="top">
         <SiteHeader />
         <main>

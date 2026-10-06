@@ -343,6 +343,33 @@ a {
   margin: 0;
 }
 
+.service-area-note {
+  align-items: start;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 0.7fr 1.3fr auto;
+  margin-top: 48px;
+  padding-top: 28px;
+}
+
+.service-area-note strong {
+  font-size: 18px;
+}
+
+.service-area-note p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.service-area-note a {
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 800;
+  padding-bottom: 4px;
+}
+
 .vehicle-section {
   align-items: center;
   background: var(--surface);
@@ -536,6 +563,14 @@ a {
 
   .service-card h3 {
     margin-top: 50px;
+  }
+
+  .service-area-note {
+    grid-template-columns: 1fr;
+  }
+
+  .service-area-note a {
+    justify-self: start;
   }
 
   .vehicle-section {
