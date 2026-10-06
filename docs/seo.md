@@ -257,3 +257,76 @@ Dedicated search landing pages are created only when all of these are true:
 names. A Bahnhof or airport page would be added only after the corresponding service details are
 verified. Creating near-duplicate city or keyword pages solely to rank for variants is explicitly
 out of scope.
+
+## Google local search setup
+
+Status on 2026-10-06: Search Console and Google Business Profile are connected and verified enough
+for the current SEO handoff. The profile is active and managed; Google currently reports pending
+edits after the category/profile updates.
+
+### Google Search Console
+
+Verified through the connected property `sc-domain:akontaxi.ch`:
+
+- Domain property exists and is readable.
+- `https://akontaxi.ch/sitemap.xml` is submitted and downloaded successfully.
+- Sitemap warnings: 0.
+- Sitemap errors: 0.
+- URL Inspection for `https://akontaxi.ch/` returns `PASS`.
+- Coverage state: `Submitted and indexed`.
+- Robots state: `ALLOWED`.
+- Indexing state: `INDEXING_ALLOWED`.
+- Page fetch state: `SUCCESSFUL`.
+- Crawled as: mobile.
+
+The sitemap aggregate can lag URL Inspection. At the time of verification it still reported one
+submitted URL and zero indexed URLs while URL Inspection already reported the homepage as submitted
+and indexed. The URL-specific inspection is the stronger current signal.
+
+The first available 28-day Search Console performance baseline currently contains zero clicks and
+zero impressions. This is expected for the new property and must not be treated as a mature
+performance baseline.
+
+### Google Business Profile
+
+Verified through the connected `Akon Taxi` profile:
+
+- Profile title: `Akon Taxi`.
+- Primary category: `Taxiservice` (`gcid:taxi_service`).
+- Website: `https://akontaxi.ch/`.
+- Phone: `077 236 60 68`.
+- Business model: pure service-area business (`CUSTOMER_LOCATION_ONLY`).
+- Public address: none.
+- Service area: Wetzikon, Schweiz.
+- Opening hours: 24 hours, seven days a week.
+- Open status: `OPEN`.
+- Voice of Merchant: enabled.
+- Current Google state: pending edits after profile changes.
+
+The profile description is now:
+
+> AKON TAXI ist Ihr persönliches Taxi in Wetzikon und im Zürcher Oberland. Fahrten werden direkt
+> telefonisch vereinbart: Abholort, Ziel und Zeitpunkt persönlich klären. Lokal erreichbar und
+> unkompliziert buchbar.
+
+Two verified services are published:
+
+- Taxi in Wetzikon;
+- Fahrten im Zürcher Oberland.
+
+The profile intentionally keeps no public street address because AKON TAXI has no customer-facing
+business location. Bahnhof/Bahnhofstrasse is treated as an operating/collection area, not as a
+business address.
+
+### Media and reviews
+
+The profile exposes one normal business photo through the Business Profile API. The owner also
+confirmed a logo is present in the Business Profile UI; Windsor does not currently return it as a
+separate `LOGO` media row.
+
+There are currently no reviews. Google already exposes the official review-request URL for the
+profile, so the review process is ready: after completed rides, real customers can be asked for an
+honest review without incentives or review gating.
+
+Local citations should keep the exact AKON TAXI name, phone and canonical website consistent and
+should only be created in trustworthy directories where the business is genuinely eligible.
