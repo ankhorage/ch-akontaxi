@@ -12,7 +12,7 @@ export function Hero() {
           src="/images/hero-desktop.webp"
           alt=""
           fill
-          priority
+          fetchPriority="high"
           sizes="(max-width: 860px) 1px, 100vw"
         />
         <Image
@@ -20,7 +20,7 @@ export function Hero() {
           src="/images/hero-mobile.webp"
           alt=""
           fill
-          priority
+          fetchPriority="high"
           sizes="(max-width: 860px) 100vw, 1px"
         />
       </div>

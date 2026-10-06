@@ -142,3 +142,18 @@ The mobile LCP is already inside the 2.5 second field target in this lab run, wh
 shows the clearest synthetic optimization opportunity. CLS is zero in both profiles. Subsequent
 work units should therefore prioritize measured mobile main-thread/loading cost without degrading
 the already strong SEO and layout-stability results.
+
+## Image and font loading audit
+
+The two hero photographs are alternative art-direction assets for different viewport widths. With
+Next.js 16 they intentionally do not use the deprecated `priority` prop or preload both candidates.
+Both keep normal lazy discovery with `fetchPriority="high"`, allowing the browser to prioritize the
+candidate that actually applies without forcing both images into the preload queue.
+
+The vehicle image is below the hero and uses the default lazy-loading behavior. It is not an LCP
+candidate and is therefore not promoted into the initial critical request set.
+
+All visible photographs continue to use `next/image` with responsive `sizes` and modern image
+formats. The site font is loaded through `next/font` with the Latin subset and `display: swap`;
+there is no runtime request to Google Fonts CSS. No extra font optimization is added without a
+measured need.
