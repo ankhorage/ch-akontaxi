@@ -170,3 +170,22 @@ be measured first and split only when doing so materially improves the initial e
 
 The legacy FID course chapter is evaluated through the current INP model. Lighthouse TBT remains a
 lab diagnostic only; real-user INP must come from field data when sufficient traffic exists.
+
+## Layout stability and candidate measurement
+
+The production baseline reports CLS 0 on both mobile and desktop. The current layout already reserves
+space for the hero and vehicle media through positioned containers, explicit minimum heights or
+aspect ratios, and Next Image sizing. Font loading uses `display: swap`. No speculative CLS
+workaround is justified while the measured value is zero.
+
+The SEO workflow now measures two separate targets on every pull request:
+
+- `lighthouse-baseline`: the current canonical production deployment;
+- `lighthouse-candidate`: a local production build from the exact pull-request head.
+
+This keeps the production baseline stable while making performance regressions in unmerged code
+visible. Candidate measurements run one warm-up audit per profile before the recorded audit because
+Next Image optimization is on-demand and a cold local image-transform request is not representative
+of the steady production build. Synthetic score variance is still expected, so decisions should
+prioritize persistent changes in LCP, CLS and main-thread diagnostics rather than a single score
+fluctuation.
