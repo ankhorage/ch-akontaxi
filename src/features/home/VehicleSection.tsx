@@ -6,7 +6,7 @@ export function VehicleSection() {
     <section className="section vehicle-section" id="fahrzeug">
       <div className="vehicle-section__visual">
         <Image
-          src="/images/vehicle.avif"
+          src="/images/vehicle.webp"
           alt="Weisser VW Touran von AKON TAXI in Wetzikon"
           fill
           sizes="(max-width: 760px) 100vw, 52vw"
