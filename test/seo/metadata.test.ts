@@ -6,10 +6,15 @@ import { createSiteMetadata } from '../../src/features/seo/createSiteMetadata';
 import { createSitemapMetadata } from '../../src/features/seo/createSitemapMetadata';
 
 describe('SEO metadata', () => {
-  test('keeps the public site canonical and indexable', () => {
+  test('keeps the public site canonical, relevant and indexable', () => {
     const metadata = createSiteMetadata(' google-verification-token ');
 
     expect(metadata.metadataBase?.toString()).toBe(`${BUSINESS.url}/`);
+    expect(metadata.title).toEqual({
+      default: 'Taxi Wetzikon | AKON TAXI',
+      template: `%s | ${BUSINESS.name}`,
+    });
+    expect(metadata.description).toContain('Taxi in Wetzikon');
     expect(metadata.alternates).toEqual({ canonical: '/' });
     expect(metadata.robots).toMatchObject({
       index: true,

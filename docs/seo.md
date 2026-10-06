@@ -77,6 +77,22 @@ The SEO program audits and hardens these foundations rather than replacing worki
 These checks intentionally live outside the deterministic application test suite because they
 validate the deployed public edge rather than local application behavior.
 
+## Rendering and on-page decisions
+
+The homepage is rendered with the Next.js App Router and server components. Its primary business
+copy, headings, navigation and phone actions are present in the HTML response and do not depend on
+client-side JavaScript before crawlers can understand the page.
+
+The homepage has one H1 and uses the natural primary intent `Taxi Wetzikon` directly in that
+heading. Supporting copy uses Wetzikon, Taxi/Fahrservice and Zürcher Oberland only where those words
+describe useful information for a visitor.
+
+AMP is intentionally not used. The canonical responsive page is the single experience to optimize,
+with Core Web Vitals and accessibility used as quality constraints.
+
+The root URL remains the only canonical content route until a separate route can provide unique,
+factually verified user value. Search-keyword variants alone are not a reason to create another URL.
+
 ## Measurement principles
 
 - Prefer Search Console query/page data over personalized manual searches.
