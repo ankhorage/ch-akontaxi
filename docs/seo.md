@@ -217,3 +217,24 @@ default.
 CrUX/Looker Studio reporting is conditional on origin-level CrUX eligibility. A new or low-traffic
 origin may legitimately have no CrUX dataset; absence of data must not be represented as zero or as
 a successful Core Web Vitals assessment.
+
+## Structured data
+
+The homepage has one canonical structured-data owner:
+`src/features/seo/createTaxiStructuredData.ts`.
+
+The page describes the offered service as Schema.org `TaxiService`. The business identity is
+represented as the service `provider`, including the verified name, canonical URL, international
+telephone number and logo. The telephone is intentionally attached to the provider rather than the
+service itself.
+
+The service declares Wetzikon and the Zürcher Oberland as the verified service area and uses
+`providerMobility: dynamic`, which matches a taxi service that moves to customers.
+
+Google's LocalBusiness rich-result documentation requires an address for LocalBusiness eligibility.
+AKON TAXI does not add a LocalBusiness address until a real public business location/address has
+been verified for publication. The markup therefore does not invent an address merely to satisfy a
+rich-result validator.
+
+The structured data also omits aggregate ratings, opening hours and price ranges until those values
+are both factual and intentionally published on the site.
