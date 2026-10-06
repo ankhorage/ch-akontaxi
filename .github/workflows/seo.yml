@@ -1,4 +1,4 @@
-name: SEO production smoke
+name: SEO validation
 
 on:
   pull_request:
@@ -41,3 +41,88 @@ jobs:
           redirect_headers="$(curl --silent --show-error --head --max-redirs 0 http://akontaxi.ch/)"
           printf '%s\n' "$redirect_headers" | grep -Eq '^HTTP/[0-9.]+ 30[178]([[:space:]]|$)'
           printf '%s\n' "$redirect_headers" | grep -Eiq '^location: https://akontaxi\.ch/?([[:space:]]|$)'
+
+  lighthouse-baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Record browser version
+        run: google-chrome --version
+
+      - name: Run mobile Lighthouse
+        run: |
+          mkdir -p lighthouse-reports
+          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse https://akontaxi.ch \
+            --only-categories=performance,seo \
+            --output=json \
+            --output-path=lighthouse-reports/mobile.json \
+            --chrome-flags='--headless --no-sandbox' \
+            --quiet
+
+      - name: Run desktop Lighthouse
+        run: |
+          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse https://akontaxi.ch \
+            --preset=desktop \
+            --only-categories=performance,seo \
+            --output=json \
+            --output-path=lighthouse-reports/desktop.json \
+            --chrome-flags='--headless --no-sandbox' \
+            --quiet
+
+      - name: Summarize baseline
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs';
+
+          const report = (name) => {
+            const data = JSON.parse(readFileSync(`lighthouse-reports/${name}.json`, 'utf8'));
+            const audit = (id) => data.audits[id]?.numericValue ?? null;
+            return {
+              performance: Math.round((data.categories.performance?.score ?? 0) * 100),
+              seo: Math.round((data.categories.seo?.score ?? 0) * 100),
+              lcpMs: Math.round(audit('largest-contentful-paint') ?? 0),
+              cls: Number((audit('cumulative-layout-shift') ?? 0).toFixed(3)),
+              tbtMs: Math.round(audit('total-blocking-time') ?? 0),
+              fcpMs: Math.round(audit('first-contentful-paint') ?? 0),
+            };
+          };
+
+          const baseline = {
+            measuredAt: new Date().toISOString(),
+            lighthouseVersion: '13.5.0',
+            url: 'https://akontaxi.ch',
+            mobile: report('mobile'),
+            desktop: report('desktop'),
+          };
+
+          writeFileSync('lighthouse-reports/baseline.json', `${JSON.stringify(baseline, null, 2)}\n`);
+
+          const row = (name, value) =>
+            `| ${name} | ${value.performance} | ${value.seo} | ${value.lcpMs} ms | ${value.cls} | ${value.tbtMs} ms | ${value.fcpMs} ms |`;
+
+          const summary = [
+            '## AKON TAXI Lighthouse baseline',
+            '',
+            '| Profile | Performance | SEO | LCP | CLS | TBT | FCP |',
+            '| --- | ---: | ---: | ---: | ---: | ---: | ---: |',
+            row('Mobile', baseline.mobile),
+            row('Desktop', baseline.desktop),
+            '',
+            'Lighthouse is a lab measurement. TBT is recorded as a lab diagnostic and is not INP.',
+          ].join('\n');
+
+          process.stdout.write(`${summary}\n`);
+          writeFileSync(process.env.GITHUB_STEP_SUMMARY, `${summary}\n`, { flag: 'a' });
+          NODE
+
+      - name: Upload Lighthouse baseline
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-baseline
+          path: lighthouse-reports
+          if-no-files-found: error

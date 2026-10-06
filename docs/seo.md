@@ -108,3 +108,37 @@ factually verified user value. Search-keyword variants alone are not a reason to
 Google Business Profile and Search Console require account-level ownership/verification. Repository
 work can prepare and document them, but they must not be marked complete until the real external
 state is verified.
+
+## Performance baseline
+
+The dedicated SEO workflow records repeatable Lighthouse 13.5.0 lab reports against the canonical
+production URL for both mobile and desktop profiles. Raw JSON reports plus a normalized
+`baseline.json` are uploaded as the `lighthouse-baseline` workflow artifact, and the key values are
+written to the GitHub job summary.
+
+Current Core Web Vitals field targets are evaluated at the 75th percentile separately for mobile and
+desktop:
+
+- LCP: at most 2.5 seconds;
+- INP: at most 200 milliseconds;
+- CLS: at most 0.1.
+
+Lighthouse is a controlled lab audit and therefore does not replace field data. It records Total
+Blocking Time (TBT) as a diagnostic for main-thread work, but TBT must not be reported as INP.
+Search Console/CrUX field data becomes authoritative for real-user Core Web Vitals when enough
+traffic exists.
+
+Performance changes must be driven by measured bottlenecks. A higher synthetic score alone is not
+a product requirement and does not imply a guaranteed search-ranking improvement.
+
+### Recorded baseline
+
+First Lighthouse 13.5.0 production measurement on 2026-10-06 using Chrome 154:
+
+- Mobile: performance 83, SEO 100, LCP 2035 ms, CLS 0, TBT 640 ms, FCP 930 ms.
+- Desktop: performance 100, SEO 100, LCP 456 ms, CLS 0, TBT 0 ms, FCP 251 ms.
+
+The mobile LCP is already inside the 2.5 second field target in this lab run, while the 640 ms TBT
+shows the clearest synthetic optimization opportunity. CLS is zero in both profiles. Subsequent
+work units should therefore prioritize measured mobile main-thread/loading cost without degrading
+the already strong SEO and layout-stability results.
