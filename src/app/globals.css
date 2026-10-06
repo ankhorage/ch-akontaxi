@@ -449,6 +449,23 @@ a {
   font-weight: 750;
 }
 
+.site-footer__credit {
+  border-top: 1px solid var(--line);
+  grid-column: 1 / -1;
+  margin: 4px 0 0;
+  padding-top: 20px;
+  text-align: right;
+  width: 100%;
+}
+
+.site-footer__credit a {
+  color: var(--ink);
+  font-weight: 750;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--yellow) 55%, transparent);
+  text-underline-offset: 3px;
+}
+
 .mobile-call {
   display: none;
 }
@@ -597,6 +614,10 @@ a {
 
   .site-footer .brand-logo {
     margin-bottom: 10px;
+  }
+
+  .site-footer__credit {
+    text-align: center;
   }
 
   .mobile-call {
