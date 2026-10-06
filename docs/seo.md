@@ -330,3 +330,34 @@ honest review without incentives or review gating.
 
 Local citations should keep the exact AKON TAXI name, phone and canonical website consistent and
 should only be created in trustworthy directories where the business is genuinely eligible.
+
+## Final technical handoff
+
+The implementation covers the technical substance of all 33 Next.js SEO course chapters using
+current Next.js 16 and current Core Web Vitals terminology.
+
+Search Console is verified, the sitemap is accepted without warnings/errors, URL Inspection reports
+the homepage as submitted and indexed, and the Google Business Profile now uses the correct taxi
+category with verified service-area, description, services and 24/7 opening hours.
+
+Latest recorded PR-candidate Lighthouse run before final verification:
+
+- Mobile: performance 98, SEO 100, LCP 2369 ms, CLS 0, TBT 54 ms, FCP 762 ms.
+- Desktop: performance 100, SEO 100, LCP 509 ms, CLS 0, TBT 0 ms, FCP 215 ms.
+
+These are lab measurements and may vary between runs. The final candidate check asserts the rendered
+application directly for canonical metadata, absence of accidental noindex, Taxi Wetzikon H1,
+TaxiService structured data, phone/internal links, robots, sitemap, Open Graph image and a real 404.
+
+### Intentionally not implemented
+
+- AMP: the responsive canonical page is the only experience and is optimized directly.
+- Dynamic imports: there is no meaningful client application bundle to split.
+- Vercel Speed Insights: deferred while Search Console/CrUX plus Lighthouse answer current questions.
+- Custom Web Vitals reporting: deferred until a real field-observability gap exists.
+- Keyword/location doorway pages: prohibited unless a route has distinct verified user value.
+- A fabricated LocalBusiness address or station pin: prohibited because AKON TAXI has no public
+  customer-facing business location.
+
+Technical SEO and local-search setup are ready for review. Google may continue processing the
+Business Profile pending edits asynchronously after this handoff.
