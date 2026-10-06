@@ -649,11 +649,12 @@ a {
 
   .site-footer__bottom {
     align-items: start;
-    gap: 18px;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .site-footer__credit {
-    text-align: right;
+    text-align: left;
   }
 
   .mobile-call {
