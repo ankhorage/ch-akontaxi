@@ -102,10 +102,11 @@ export default function OpenGraphImage() {
           <div
             style={{
               color: '#c7c7c7',
+              display: 'flex',
               fontSize: 28,
             }}
           >
-            {BUSINESS.locality} · {BUSINESS.region} · {BUSINESS.phoneDisplay}
+            {`${BUSINESS.locality} · ${BUSINESS.region} · ${BUSINESS.phoneDisplay}`}
           </div>
         </div>
 
