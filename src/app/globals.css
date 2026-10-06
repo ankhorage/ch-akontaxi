@@ -480,17 +480,24 @@ a {
   }
 
   .hero {
-    align-items: start;
-    min-height: 560px;
+    --hero-actions-reserve: 88px;
+
+    align-items: stretch;
+    min-height: 680px;
   }
 
   .hero__image--desktop {
     display: none;
   }
 
+  .hero__media,
+  .hero__overlay {
+    bottom: var(--hero-actions-reserve);
+  }
+
   .hero__image--mobile {
     display: block;
-    object-position: 50% 44%;
+    object-position: 50% 22%;
   }
 
   .hero__overlay {
@@ -504,7 +511,11 @@ a {
   }
 
   .hero__content {
-    padding: 40px 22px 44px;
+    display: grid;
+    grid-template-rows: auto auto auto 1fr auto;
+    min-height: 680px;
+    padding: 40px 22px 18px;
+    width: 100%;
   }
 
   .hero .eyebrow {
@@ -518,6 +529,10 @@ a {
   .hero__lead {
     line-height: 1.45;
     margin: 22px 0 26px;
+  }
+
+  .hero__actions {
+    align-self: end;
   }
 
   .hero__phone {
@@ -603,6 +618,10 @@ a {
 @media (max-width: 480px) {
   .brand-logo__words {
     font-size: 17px;
+  }
+
+  .hero {
+    --hero-actions-reserve: 154px;
   }
 
   .hero__actions .button {
