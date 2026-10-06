@@ -238,3 +238,22 @@ rich-result validator.
 
 The structured data also omits aggregate ratings, opening hours and price ranges until those values
 are both factual and intentionally published on the site.
+
+## Local content and route strategy
+
+The homepage remains the canonical landing page for the verified core intents around Taxi Wetzikon,
+telephone contact and general service in the Zürcher Oberland. It now explicitly tells visitors how
+to ask about a destination that is not listed instead of pretending every possible route is
+guaranteed.
+
+Dedicated search landing pages are created only when all of these are true:
+
+1. AKON TAXI genuinely offers the service or journey category;
+2. the page can answer a distinct user need with unique factual content;
+3. the page can be linked naturally from the public navigation/content;
+4. its metadata and sitemap entry have one canonical URL.
+
+`taxi wetzikon bahnhof` and `taxi wetzikon flughafen` remain candidate intents, not current route
+names. A Bahnhof or airport page would be added only after the corresponding service details are
+verified. Creating near-duplicate city or keyword pages solely to rank for variants is explicitly
+out of scope.

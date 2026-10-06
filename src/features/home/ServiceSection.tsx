@@ -36,6 +36,14 @@ export function ServiceSection() {
           </article>
         ))}
       </div>
+      <div className="service-area-note">
+        <strong>Ziel nicht aufgeführt?</strong>
+        <p>
+          Nennen Sie Abholort, Ziel und Zeitpunkt direkt am Telefon. AKON TAXI bestätigt persönlich,
+          ob die gewünschte Fahrt möglich ist.
+        </p>
+        <a href={BUSINESS.phoneHref}>Anfragen: {BUSINESS.phoneDisplay}</a>
+      </div>
     </section>
   );
 }
