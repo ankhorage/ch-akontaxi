@@ -535,6 +535,10 @@ a {
     align-self: end;
   }
 
+  .hero__call-action {
+    display: none;
+  }
+
   .hero__phone {
     display: none;
   }
@@ -618,10 +622,6 @@ a {
 @media (max-width: 480px) {
   .brand-logo__words {
     font-size: 17px;
-  }
-
-  .hero {
-    --hero-actions-reserve: 154px;
   }
 
   .hero__actions .button {

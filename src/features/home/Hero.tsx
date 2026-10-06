@@ -33,7 +33,7 @@ export function Hero() {
           Oberland.
         </p>
         <div className="hero__actions">
-          <a className="button" href={BUSINESS.phoneHref}>
+          <a className="button hero__call-action" href={BUSINESS.phoneHref}>
             <span aria-hidden="true">☎</span>
             Jetzt anrufen
           </a>
