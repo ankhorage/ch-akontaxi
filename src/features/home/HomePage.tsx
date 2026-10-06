@@ -10,10 +10,22 @@ import { VehicleSection } from './VehicleSection';
 const STRUCTURED_DATA = {
   '@context': 'https://schema.org',
   '@type': 'TaxiService',
+  '@id': `${BUSINESS.url}/#taxi-service`,
   name: BUSINESS.name,
   url: BUSINESS.url,
-  telephone: '+41772366068',
-  areaServed: [BUSINESS.locality, BUSINESS.region],
+  telephone: BUSINESS.phoneInternational,
+  logo: BUSINESS.assets.logo,
+  image: BUSINESS.assets.socialImage,
+  areaServed: [
+    {
+      '@type': 'City',
+      name: BUSINESS.locality,
+    },
+    {
+      '@type': 'AdministrativeArea',
+      name: BUSINESS.region,
+    },
+  ],
 };
 
 /*** Compose the public AKON TAXI homepage from focused presentation sections. */
