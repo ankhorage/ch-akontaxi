@@ -453,6 +453,12 @@ a {
   display: none;
 }
 
+@media (min-width: 1440px) {
+  .hero__content {
+    max-width: 1020px;
+  }
+}
+
 @media (max-width: 860px) {
   .site-header {
     grid-template-columns: 1fr auto;
@@ -475,7 +481,7 @@ a {
 
   .hero {
     align-items: start;
-    min-height: 720px;
+    min-height: clamp(560px, 100vw, 680px);
   }
 
   .hero__image--desktop {
@@ -484,7 +490,7 @@ a {
 
   .hero__image--mobile {
     display: block;
-    object-position: 50% 58%;
+    object-position: 50% 32%;
   }
 
   .hero__overlay {
@@ -498,7 +504,7 @@ a {
   }
 
   .hero__content {
-    padding: 54px 22px 250px;
+    padding: 54px 22px 72px;
   }
 
   .hero h1 {
