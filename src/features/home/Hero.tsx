@@ -9,17 +9,19 @@ export function Hero() {
       <div className="hero__media" aria-hidden="true">
         <Image
           className="hero__image hero__image--desktop"
-          src="/images/hero-desktop.webp"
+          src="/images/hero-desktop-approved.webp"
           alt=""
           fill
+          loading="eager"
           fetchPriority="high"
           sizes="(max-width: 860px) 1px, 100vw"
         />
         <Image
           className="hero__image hero__image--mobile"
-          src="/images/hero-mobile.webp"
+          src="/images/hero-mobile-approved.webp"
           alt=""
           fill
+          loading="eager"
           fetchPriority="high"
           sizes="(max-width: 860px) 100vw, 1px"
         />
