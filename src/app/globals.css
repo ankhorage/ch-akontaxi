@@ -441,28 +441,20 @@ a {
   padding-bottom: 30px;
 }
 
-.site-footer__contact {
-  align-items: center;
-  display: flex;
-  gap: clamp(32px, 5vw, 72px);
-}
-
-.site-footer__contact p,
+.site-footer__location,
 .site-footer__bottom,
 .site-footer__credit {
   color: var(--muted);
   font-size: 13px;
 }
 
-.site-footer__contact p,
+.site-footer__location,
 .site-footer__credit {
   margin: 0;
 }
 
-.site-footer__phone {
-  font-size: 13px;
-  font-weight: 750;
-  white-space: nowrap;
+.site-footer__location {
+  text-align: right;
 }
 
 .site-footer__bottom {
@@ -637,14 +629,8 @@ a {
     padding-bottom: 26px;
   }
 
-  .site-footer__contact {
-    align-items: start;
-    display: grid;
-    gap: 0;
-  }
-
-  .site-footer__phone {
-    display: none;
+  .site-footer__location {
+    text-align: left;
   }
 
   .site-footer__bottom {
