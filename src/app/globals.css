@@ -481,7 +481,7 @@ a {
 
   .hero {
     align-items: start;
-    min-height: clamp(560px, 100vw, 680px);
+    min-height: 560px;
   }
 
   .hero__image--desktop {
@@ -490,7 +490,7 @@ a {
 
   .hero__image--mobile {
     display: block;
-    object-position: 50% 32%;
+    object-position: 50% 44%;
   }
 
   .hero__overlay {
@@ -504,11 +504,20 @@ a {
   }
 
   .hero__content {
-    padding: 54px 22px 72px;
+    padding: 40px 22px 44px;
+  }
+
+  .hero .eyebrow {
+    margin-bottom: 14px;
   }
 
   .hero h1 {
     font-size: clamp(40px, 10.8vw, 56px);
+  }
+
+  .hero__lead {
+    line-height: 1.45;
+    margin: 22px 0 26px;
   }
 
   .hero__phone {
