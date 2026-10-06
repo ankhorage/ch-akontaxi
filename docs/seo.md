@@ -189,3 +189,31 @@ Next Image optimization is on-demand and a cold local image-transform request is
 of the steady production build. Synthetic score variance is still expected, so decisions should
 prioritize persistent changes in LCP, CLS and main-thread diagnostics rather than a single score
 fluctuation.
+
+## Production monitoring
+
+The SEO validation workflow runs on pull requests, manually, and every Monday at 05:17 UTC. The
+scheduled run continuously checks the public production edge and records mobile/desktop Lighthouse
+reports even when no code change is in flight.
+
+Monitoring ownership is intentionally split by signal:
+
+- GitHub Actions owns repeatable production HTTP, crawler and Lighthouse checks.
+- Google Search Console should own indexing, query, click, impression, CTR and search-position data.
+- CrUX should own real-user Core Web Vitals once the origin has enough eligible traffic.
+- Lighthouse remains a lab diagnostic and is not treated as field telemetry.
+
+Vercel Speed Insights is not enabled at this stage. The site currently has no client-side application
+code or third-party analytics script, and adding browser telemetry solely to reproduce signals that
+Search Console/CrUX can provide would increase client work without a demonstrated decision benefit.
+This decision should be revisited only when field observability is insufficient for an actual product
+or performance question.
+
+Custom Web Vitals reporting is also intentionally deferred. It becomes justified only when AKON TAXI
+needs per-route or conversion-correlated field measurements that the platform/search tools cannot
+answer. Until then, keeping the public page script-free is the stronger performance and privacy
+default.
+
+CrUX/Looker Studio reporting is conditional on origin-level CrUX eligibility. A new or low-traffic
+origin may legitimately have no CrUX dataset; absence of data must not be represented as zero or as
+a successful Core Web Vitals assessment.
