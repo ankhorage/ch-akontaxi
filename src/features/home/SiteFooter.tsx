@@ -12,7 +12,7 @@ export function SiteFooter() {
       <a href={BUSINESS.phoneHref}>{BUSINESS.phoneDisplay}</a>
       <span>© 2026 {BUSINESS.name}</span>
       <p className="site-footer__credit">
-        {"design & development by "}
+        {'design & development by '}
         <a href="https://ankhorage.com/" target="_blank" rel="noopener noreferrer">
           ankhorage.com
         </a>
