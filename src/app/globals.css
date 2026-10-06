@@ -429,33 +429,52 @@ a {
 }
 
 .site-footer {
-  align-items: center;
   background: var(--paper);
-  display: grid;
-  gap: 24px;
-  grid-template-columns: 1.4fr 1fr auto auto;
-  min-height: 130px;
-  padding: 28px clamp(22px, 7vw, 106px) 74px;
+  padding: 42px clamp(22px, 7vw, 106px) 58px;
 }
 
-.site-footer p,
-.site-footer > span,
-.site-footer > a {
+.site-footer__top {
+  align-items: center;
+  display: grid;
+  gap: clamp(32px, 6vw, 96px);
+  grid-template-columns: 1fr auto;
+  padding-bottom: 30px;
+}
+
+.site-footer__contact {
+  align-items: center;
+  display: flex;
+  gap: clamp(32px, 5vw, 72px);
+}
+
+.site-footer__contact p,
+.site-footer__bottom,
+.site-footer__credit {
   color: var(--muted);
   font-size: 13px;
 }
 
-.site-footer > a {
+.site-footer__contact p,
+.site-footer__credit {
+  margin: 0;
+}
+
+.site-footer__phone {
+  font-size: 13px;
   font-weight: 750;
+  white-space: nowrap;
+}
+
+.site-footer__bottom {
+  align-items: center;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
 }
 
 .site-footer__credit {
-  border-top: 1px solid var(--line);
-  grid-column: 1 / -1;
-  margin: 4px 0 0;
-  padding-top: 20px;
   text-align: right;
-  width: 100%;
 }
 
 .site-footer__credit a {
@@ -608,16 +627,33 @@ a {
   }
 
   .site-footer {
-    grid-template-columns: 1fr;
-    padding-bottom: 110px;
+    padding: 36px 22px 100px;
   }
 
-  .site-footer .brand-logo {
-    margin-bottom: 10px;
+  .site-footer__top {
+    align-items: start;
+    gap: 26px;
+    grid-template-columns: 1fr;
+    padding-bottom: 26px;
+  }
+
+  .site-footer__contact {
+    align-items: start;
+    display: grid;
+    gap: 0;
+  }
+
+  .site-footer__phone {
+    display: none;
+  }
+
+  .site-footer__bottom {
+    align-items: start;
+    gap: 18px;
   }
 
   .site-footer__credit {
-    text-align: center;
+    text-align: right;
   }
 
   .mobile-call {
