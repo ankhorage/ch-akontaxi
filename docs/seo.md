@@ -157,3 +157,16 @@ All visible photographs continue to use `next/image` with responsive `sizes` and
 formats. The site font is loaded through `next/font` with the Latin subset and `display: swap`;
 there is no runtime request to Google Fonts CSS. No extra font optimization is added without a
 measured need.
+
+## JavaScript and third-party audit
+
+The current public site has no Client Component boundary, no `"use client"` modules, no
+`next/script` usage, no analytics SDK and no other third-party browser script. Its visible content
+and phone actions are ordinary server-rendered HTML.
+
+Dynamic imports would therefore add complexity without reducing a real initial client bundle. They
+are intentionally not introduced. If a future feature adds optional client-side behavior, it should
+be measured first and split only when doing so materially improves the initial experience.
+
+The legacy FID course chapter is evaluated through the current INP model. Lighthouse TBT remains a
+lab diagnostic only; real-user INP must come from field data when sufficient traffic exists.
