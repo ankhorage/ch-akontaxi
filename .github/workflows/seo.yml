@@ -1,0 +1,43 @@
+name: SEO production smoke
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify canonical production endpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          base='https://akontaxi.ch'
+          tmp_dir="$(mktemp -d)"
+          trap 'rm -rf "$tmp_dir"' EXIT
+
+          root_status="$(curl --fail-with-body --silent --show-error --location --output "$tmp_dir/root.html" --write-out '%{http_code}' "$base/")"
+          test "$root_status" = '200'
+
+          googlebot_status="$(curl --fail-with-body --silent --show-error --location --user-agent 'Googlebot' --output "$tmp_dir/googlebot.html" --write-out '%{http_code}' "$base/")"
+          test "$googlebot_status" = '200'
+          cmp "$tmp_dir/root.html" "$tmp_dir/googlebot.html"
+
+          robots_status="$(curl --fail-with-body --silent --show-error --location --output "$tmp_dir/robots.txt" --write-out '%{http_code}' "$base/robots.txt")"
+          test "$robots_status" = '200'
+          grep -Fq 'Sitemap: https://akontaxi.ch/sitemap.xml' "$tmp_dir/robots.txt"
+
+          sitemap_status="$(curl --fail-with-body --silent --show-error --location --output "$tmp_dir/sitemap.xml" --write-out '%{http_code}' "$base/sitemap.xml")"
+          test "$sitemap_status" = '200'
+          grep -Fq '<loc>https://akontaxi.ch</loc>' "$tmp_dir/sitemap.xml"
+
+          missing_status="$(curl --silent --show-error --output "$tmp_dir/missing.html" --write-out '%{http_code}' "$base/__seo-missing__")"
+          test "$missing_status" = '404'
+
+          redirect_headers="$(curl --silent --show-error --head --max-redirs 0 http://akontaxi.ch/)"
+          printf '%s\n' "$redirect_headers" | grep -Eq '^HTTP/[0-9.]+ 30[178]([[:space:]]|$)'
+          printf '%s\n' "$redirect_headers" | grep -Eiq '^location: https://akontaxi\.ch/?([[:space:]]|$)'
