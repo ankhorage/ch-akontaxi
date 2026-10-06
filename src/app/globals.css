@@ -10,6 +10,7 @@
   --surface: #fff;
   --radius: 28px;
   --shadow: 0 24px 70px rgb(0 0 0 / 14%);
+  --brand-mark: url('/brand/akon-mark-light.svg');
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,6 +23,7 @@
     --line: rgb(255 255 255 / 12%);
     --surface: #181818;
     --shadow: 0 24px 70px rgb(0 0 0 / 42%);
+    --brand-mark: url('/brand/akon-mark-dark.svg');
   }
 }
 
@@ -102,16 +104,11 @@ a {
 }
 
 .brand-logo__mark {
+  background: var(--brand-mark) center / contain no-repeat;
+  display: block;
+  flex: 0 0 auto;
   height: 50px;
   width: 60px;
-}
-
-.brand-logo__letter {
-  fill: var(--ink);
-}
-
-.brand-logo__road {
-  stroke: var(--yellow);
 }
 
 .brand-logo__words {
@@ -538,7 +535,7 @@ a {
     --hero-actions-reserve: 88px;
 
     align-items: stretch;
-    min-height: 680px;
+    min-height: 740px;
   }
 
   .hero__image--desktop {
@@ -552,24 +549,26 @@ a {
 
   .hero__image--mobile {
     display: block;
-    object-position: 50% 22%;
+    object-position: 50% 4%;
   }
 
   .hero__overlay {
     background: linear-gradient(
       180deg,
-      rgb(5 5 5 / 90%) 0%,
-      rgb(5 5 5 / 70%) 39%,
-      rgb(5 5 5 / 22%) 61%,
-      rgb(5 5 5 / 8%) 100%
+      rgb(5 5 5 / 97%) 0%,
+      rgb(5 5 5 / 93%) 30%,
+      rgb(5 5 5 / 76%) 46%,
+      rgb(5 5 5 / 34%) 59%,
+      rgb(5 5 5 / 8%) 70%,
+      transparent 82%
     );
   }
 
   .hero__content {
     display: grid;
     grid-template-rows: auto auto auto 1fr auto;
-    min-height: 680px;
-    padding: 40px 22px 18px;
+    min-height: 740px;
+    padding: 36px 22px 18px;
     width: 100%;
   }
 
@@ -578,12 +577,13 @@ a {
   }
 
   .hero h1 {
-    font-size: clamp(40px, 10.8vw, 56px);
+    font-size: clamp(40px, 10vw, 52px);
   }
 
   .hero__lead {
-    line-height: 1.45;
-    margin: 22px 0 26px;
+    line-height: 1.42;
+    margin: 18px 0 22px;
+    max-width: 560px;
   }
 
   .hero__actions {
