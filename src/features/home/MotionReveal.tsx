@@ -13,33 +13,22 @@ export function MotionReveal({
   immediate = false,
 }: MotionRevealProps) {
   const prefersReducedMotion = useReducedMotion();
-
-  if (prefersReducedMotion) {
-    return (
-      <div className={className} data-motion-reveal>
-        {children}
-      </div>
-    );
-  }
-
-  const offset =
-    direction === 'left'
-      ? { x: -distance }
-      : direction === 'right'
-        ? { x: distance }
-        : direction === 'up'
-          ? { y: distance }
-          : {};
-
+  const offset = {
+    left: { x: -distance },
+    none: {},
+    right: { x: distance },
+    up: { y: distance },
+  }[direction];
   const visible = { opacity: 1, x: 0, y: 0 };
+  const target = prefersReducedMotion ? undefined : visible;
 
   return (
     <motion.div
       className={className}
       data-motion-reveal
-      initial={{ opacity: 0, ...offset }}
-      animate={immediate ? visible : undefined}
-      whileInView={immediate ? undefined : visible}
+      initial={prefersReducedMotion ? false : { opacity: 0, ...offset }}
+      animate={immediate ? target : undefined}
+      whileInView={immediate ? undefined : target}
       viewport={immediate ? undefined : { once: true, amount: 0.18 }}
       transition={{
         duration: 0.62,
