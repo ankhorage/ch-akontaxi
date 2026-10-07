@@ -13,12 +13,7 @@ export function MotionReveal({
   immediate = false,
 }: MotionRevealProps) {
   const prefersReducedMotion = useReducedMotion();
-  const offset = {
-    left: { x: -distance },
-    none: {},
-    right: { x: distance },
-    up: { y: distance },
-  }[direction];
+  const offset = getMotionOffset(direction, distance);
   const visible = { opacity: 1, x: 0, y: 0 };
   const target = prefersReducedMotion ? undefined : visible;
 
@@ -41,11 +36,32 @@ export function MotionReveal({
   );
 }
 
+/*** Resolve the initial transform offset without dynamic property access. */
+function getMotionOffset(direction: MotionRevealDirection, distance: number): MotionOffset {
+  switch (direction) {
+    case 'left':
+      return { x: -distance };
+    case 'right':
+      return { x: distance };
+    case 'up':
+      return { y: distance };
+    case 'none':
+      return {};
+  }
+}
+
 interface MotionRevealProps {
   readonly children: ReactNode;
   readonly className?: string;
   readonly delay?: number;
-  readonly direction?: 'left' | 'none' | 'right' | 'up';
+  readonly direction?: MotionRevealDirection;
   readonly distance?: number;
   readonly immediate?: boolean;
 }
+
+type MotionOffset = {
+  readonly x?: number;
+  readonly y?: number;
+};
+
+type MotionRevealDirection = 'left' | 'none' | 'right' | 'up';
