@@ -12,9 +12,9 @@ export function ContactSection() {
       </MotionReveal>
       <MotionReveal className="contact-section__phone-wrap" delay={0.08} direction="right">
         <a className="contact-section__phone" href={BUSINESS.phoneHref}>
-        <small>Telefon</small>
-        {BUSINESS.phoneDisplay}
-        <span aria-hidden="true">→</span>
+          <small>Telefon</small>
+          {BUSINESS.phoneDisplay}
+          <span aria-hidden="true">→</span>
         </a>
       </MotionReveal>
     </section>
