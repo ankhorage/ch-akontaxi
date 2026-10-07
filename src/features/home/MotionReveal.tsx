@@ -59,9 +59,9 @@ interface MotionRevealProps {
   readonly immediate?: boolean;
 }
 
-type MotionOffset = {
+interface MotionOffset {
   readonly x?: number;
   readonly y?: number;
-};
+}
 
 type MotionRevealDirection = 'left' | 'none' | 'right' | 'up';
