@@ -19,7 +19,8 @@
   "dependencies": {
     "next": "^16.3.8",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "motion": "^14.0.0"
   },
   "devDependencies": {
     "@ankhorage/devtools": "^2.1.14",
