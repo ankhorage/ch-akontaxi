@@ -715,3 +715,10 @@ a {
     padding-inline: 20px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-motion-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

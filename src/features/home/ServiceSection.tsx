@@ -1,4 +1,5 @@
 import { BUSINESS } from '../../constants/business';
+import { MotionReveal } from './MotionReveal';
 
 const SERVICES = [
   {
@@ -19,15 +20,15 @@ const SERVICES = [
 export function ServiceSection() {
   return (
     <section className="section section--light" id="fahrservice">
-      <div className="section__intro">
+      <MotionReveal className="section__intro">
         <p className="eyebrow">Fahrservice</p>
         <h2>Taxi und Fahrservice rund um Wetzikon.</h2>
         <p>
           Wenn Sie eine Fahrt in Wetzikon oder im Zürcher Oberland planen, erreichen Sie AKON TAXI
           ohne Umweg direkt unter {BUSINESS.phoneDisplay}.
         </p>
-      </div>
-      <div className="service-grid">
+      </MotionReveal>
+      <MotionReveal className="service-grid" delay={0.08}>
         {SERVICES.map((service, index) => (
           <article className="service-card" key={service.title}>
             <span className="service-card__number">0{index + 1}</span>
@@ -35,15 +36,15 @@ export function ServiceSection() {
             <p>{service.text}</p>
           </article>
         ))}
-      </div>
-      <div className="service-area-note">
+      </MotionReveal>
+      <MotionReveal className="service-area-note" delay={0.12}>
         <strong>Ziel nicht aufgeführt?</strong>
         <p>
           Nennen Sie Abholort, Ziel und Zeitpunkt direkt am Telefon. AKON TAXI bestätigt persönlich,
           ob die gewünschte Fahrt möglich ist.
         </p>
         <a href={BUSINESS.phoneHref}>Anfragen: {BUSINESS.phoneDisplay}</a>
-      </div>
+      </MotionReveal>
     </section>
   );
 }

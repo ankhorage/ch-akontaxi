@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import { BUSINESS } from '../../constants/business';
+import { MotionReveal } from './MotionReveal';
 
 /*** Render the homepage hero with explicit desktop and portrait mobile photography. */
 export function Hero() {
@@ -27,7 +28,7 @@ export function Hero() {
         />
       </div>
       <div className="hero__overlay" />
-      <div className="hero__content">
+      <MotionReveal className="hero__content" distance={18} immediate>
         <p className="eyebrow">Ihr Taxi in Wetzikon</p>
         <h1 id="hero-title">Taxi Wetzikon. Persönlich. Lokal. Direkt erreichbar.</h1>
         <p className="hero__lead">
@@ -46,7 +47,7 @@ export function Hero() {
         <a className="hero__phone" href={BUSINESS.phoneHref}>
           {BUSINESS.phoneDisplay}
         </a>
-      </div>
+      </MotionReveal>
     </section>
   );
 }
