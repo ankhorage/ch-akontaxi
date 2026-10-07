@@ -430,10 +430,6 @@ a {
   font-size: 18px;
 }
 
-.contact-section__phone-wrap {
-  align-self: end;
-}
-
 .contact-section__phone {
   border-bottom: 2px solid var(--yellow);
   display: grid;
