@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 
 import { findLandingPage } from '../../features/landing/findLandingPage';
-import { LandingPage } from '../../features/landing/LandingPage';
 import { generateLandingMetadata } from '../../features/landing/generateLandingMetadata';
 import { generateLandingStaticParams } from '../../features/landing/generateLandingStaticParams';
+import { LandingPage } from '../../features/landing/LandingPage';
 
 export const generateMetadata = generateLandingMetadata;
 export const generateStaticParams = generateLandingStaticParams;
