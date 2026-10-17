@@ -43,12 +43,18 @@ describe('SEO metadata', () => {
   });
 
   test('lists only canonical indexable routes', () => {
-    expect(createSitemapMetadata()).toEqual([
-      {
-        url: BUSINESS.url,
-        changeFrequency: 'weekly',
-        priority: 1,
-      },
+    const urls = createSitemapMetadata().map((entry) => entry.url);
+
+    expect(urls).toEqual([
+      BUSINESS.url,
+      ...[
+        'taxi-wetzikon',
+        'flughafentransfer',
+        'bahnhoftransfer',
+        'fahrgebiet',
+        'preise',
+        'kontakt',
+      ].map((slug) => `${BUSINESS.url}/${slug}`),
     ]);
   });
 });

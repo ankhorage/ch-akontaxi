@@ -5,13 +5,13 @@ import { BrandLogo } from '../brand/BrandLogo';
 export function SiteHeader() {
   return (
     <header className="site-header">
-      <a className="site-header__brand" href="#top" aria-label="AKON TAXI Startseite">
+      <a className="site-header__brand" href="/" aria-label="AKON TAXI Startseite">
         <BrandLogo />
       </a>
       <nav className="site-header__nav" aria-label="Hauptnavigation">
-        <a href="#fahrservice">Fahrservice</a>
-        <a href="#fahrzeug">Fahrzeug</a>
-        <a href="#kontakt">Kontakt</a>
+        <a href="/#fahrservice">Fahrservice</a>
+        <a href="/#fahrzeug">Fahrzeug</a>
+        <a href="/kontakt">Kontakt</a>
       </nav>
       <a className="button button--small" href={BUSINESS.phoneHref}>
         Jetzt anrufen

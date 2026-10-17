@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next';
 
 import { BUSINESS } from '../../constants/business';
+import { LANDING_PAGES } from '../landing/constants/landingPages';
 
-/*** Create the sitemap entries for canonical indexable application routes. */
+/*** Create canonical sitemap entries for the homepage and helpful service destinations. */
 export function createSitemapMetadata(): MetadataRoute.Sitemap {
   return [
     {
@@ -10,5 +11,10 @@ export function createSitemapMetadata(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 1,
     },
+    ...LANDING_PAGES.map(({ slug }) => ({
+      url: `${BUSINESS.url}/${slug}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
   ];
 }
