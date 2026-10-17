@@ -43,10 +43,7 @@ export const LANDING_PAGES = [
         'Abflug und Zeitfenster',
         'Geben Sie Abflugdatum, ungefähre Check-in-Zeit und Ihre gewünschte Ankunft am Flughafen an.',
       ],
-      [
-        'Abholung planen',
-        'Nennen Sie die genaue Abholadresse in Wetzikon oder Ihrer Region.',
-      ],
+      ['Abholung planen', 'Nennen Sie die genaue Abholadresse in Wetzikon oder Ihrer Region.'],
       [
         'Personen und Gepäck',
         'Erwähnen Sie Anzahl Fahrgäste und grössere Gepäckstücke bereits bei der Anfrage.',
@@ -117,10 +114,7 @@ export const LANDING_PAGES = [
     intro:
       'Ein konkreter Fahrtpreis hängt unter anderem von Strecke, Zeitpunkt und Fahrtanforderungen ab. Deshalb nennt diese Seite bewusst keine pauschalen Tarife, die für Ihre Fahrt möglicherweise nicht gelten.',
     items: [
-      [
-        'Strecke beschreiben',
-        'Nennen Sie Startadresse und Zielort möglichst genau.',
-      ],
+      ['Strecke beschreiben', 'Nennen Sie Startadresse und Zielort möglichst genau.'],
       [
         'Zeitpunkt mitteilen',
         'Geben Sie gewünschte Uhrzeit und Datum an, auch bei Flughafenfahrten.',
@@ -147,10 +141,7 @@ export const LANDING_PAGES = [
         'Telefonnummer',
         'Rufen Sie 077 236 60 68 an. Mobil genügt ein Tippen auf den Anruf-Button.',
       ],
-      [
-        'Fahrt beschreiben',
-        'Teilen Sie Abholort, Ziel, Wunschzeit und gegebenenfalls Gepäck mit.',
-      ],
+      ['Fahrt beschreiben', 'Teilen Sie Abholort, Ziel, Wunschzeit und gegebenenfalls Gepäck mit.'],
       [
         'Bestätigung erhalten',
         'Vereinbaren Sie Abholstelle und Bedingungen unmittelbar mit dem Fahrer.',

@@ -4,11 +4,7 @@ import { BUSINESS } from '../../constants/business';
 import { BrandLogo } from '../brand/BrandLogo';
 
 /*** Render navigation to homepage sections or service destinations and a persistent call action. */
-export function SiteHeader({
-  isLanding = false,
-}: {
-  readonly isLanding?: boolean;
-}) {
+export function SiteHeader({ isLanding = false }: { readonly isLanding?: boolean }) {
   return (
     <header className="site-header">
       <Link

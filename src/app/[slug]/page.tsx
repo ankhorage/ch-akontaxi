@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
-import { LandingPage } from '../../features/landing/LandingPage';
 import { findLandingPage } from '../../features/landing/findLandingPage';
+import { LandingPage } from '../../features/landing/LandingPage';
 import { generateLandingMetadata } from '../../features/landing/generateLandingMetadata';
 import { generateLandingStaticParams } from '../../features/landing/generateLandingStaticParams';
 
