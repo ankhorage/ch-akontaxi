@@ -17,7 +17,9 @@ describe('Paid search service destinations', () => {
 
   test('provides distinct canonical metadata', async () => {
     for (const page of LANDING_PAGES) {
-      const metadata = await generateLandingMetadata({ params: Promise.resolve({ slug: page.slug }) });
+      const metadata = await generateLandingMetadata({
+        params: Promise.resolve({ slug: page.slug }),
+      });
       expect(metadata.alternates).toEqual({ canonical: `/${page.slug}` });
       expect(metadata.description).toBe(page.description);
     }
