@@ -8,7 +8,7 @@ import { SiteHeader } from '../home/SiteHeader';
 export function LandingPage({ page }: { readonly page: LandingPageDetails }) {
   return (
     <div className="page-shell" id="top">
-      <SiteHeader />
+      <SiteHeader isLanding />
       <main>
         <section className="landing-hero" aria-labelledby="landing-title">
           <div className="landing-hero__inner">
