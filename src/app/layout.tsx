@@ -1,5 +1,6 @@
 import './globals.css';
 
+import { Analytics } from '@vercel/analytics/next';
 import { Montserrat } from 'next/font/google';
 import type { ReactNode } from 'react';
 
@@ -21,7 +22,10 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <html lang="de-CH">
-      <body className={montserrat.variable}>{children}</body>
+      <body className={montserrat.variable}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
