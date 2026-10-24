@@ -2,7 +2,7 @@ import { BUSINESS } from '../../constants/business';
 import { SiteFooter } from '../home/SiteFooter';
 import { SiteHeader } from '../home/SiteHeader';
 
-/*** Render verified provider and contact facts without inventing legal identity details. */
+/*** Render confirmed proprietor, postal address and public contact details. */
 export function ImprintPage() {
   return (
     <div className="page-shell" id="top">
@@ -21,7 +21,13 @@ export function ImprintPage() {
               <p>
                 <strong>{BUSINESS.name}</strong>
               </p>
-              <p>Wetzikon (ZH), Schweiz</p>
+              <p>Inhaber: {BUSINESS.legal.owner}</p>
+              <p>Rechtsform: {BUSINESS.legal.legalForm}</p>
+              <p>{BUSINESS.legal.street}</p>
+              <p>
+                {BUSINESS.legal.postalCode} {BUSINESS.legal.city}
+              </p>
+              <p>{BUSINESS.legal.country}</p>
             </address>
           </section>
 
@@ -31,9 +37,16 @@ export function ImprintPage() {
               Telefon: <a href={BUSINESS.phoneHref}>{BUSINESS.phoneDisplay}</a>
             </p>
             <p>
+              E-Mail: <a href={`mailto:${BUSINESS.legal.email}`}>{BUSINESS.legal.email}</a>
+            </p>
+            <p>
               Website: <a href={BUSINESS.url}>{BUSINESS.domain}</a>
             </p>
           </section>
+          <p className="imprint-page__intro">
+            {BUSINESS.name} ist die Geschäftsbezeichnung des Einzelunternehmens von{' '}
+            {BUSINESS.legal.owner}.
+          </p>
         </div>
       </main>
       <SiteFooter />
@@ -41,8 +54,3 @@ export function ImprintPage() {
   );
 }
 
-/*
- * Release blocker: add the verified legal operator (full person/company name),
- * serviceable postal address and publicly reachable email address before merge.
- * Wetzikon is only a locality; it is not a postal address.
- */
