@@ -42,8 +42,8 @@ export function ServiceSection() {
       <MotionReveal className="service-area-note" delay={0.12}>
         <strong>Flughafentaxi: {BUSINESS.airportFare.display} Fixpreis</strong>
         <p>
-          Von {BUSINESS.airportFare.origin} zum {BUSINESS.airportFare.destination} – ein verbindlicher
-          Pauschalpreis pro einfache Fahrt.
+          Von {BUSINESS.airportFare.origin} zum {BUSINESS.airportFare.destination} – ein
+          verbindlicher Pauschalpreis pro einfache Fahrt.
         </p>
         <Link href="/flughafentransfer">Flughafentransfer ansehen</Link>
       </MotionReveal>
