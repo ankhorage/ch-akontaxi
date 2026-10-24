@@ -13,5 +13,7 @@ describe('Local search content', () => {
     expect(html).toContain('Ziel nicht aufgeführt?');
     expect(html).toContain(BUSINESS.phoneDisplay);
     expect(html).toContain(BUSINESS.phoneHref);
+    expect(html).toContain(BUSINESS.airportFare.display);
+    expect(html).toContain('/flughafentransfer');
   });
 });
