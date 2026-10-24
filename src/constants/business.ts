@@ -9,6 +9,12 @@ export const BUSINESS = {
   phoneInternational: '+41772366068',
   locality: 'Wetzikon',
   region: 'Zürcher Oberland',
+  airportFare: {
+    display: 'CHF 90.–',
+    amountChf: 90,
+    origin: 'Wetzikon und Umgebung',
+    destination: 'Flughafen Zürich',
+  },
   seo: {
     title: 'Taxi Wetzikon | AKON TAXI',
     description:
