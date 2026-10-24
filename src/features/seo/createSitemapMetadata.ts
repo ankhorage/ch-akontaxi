@@ -11,6 +11,11 @@ export function createSitemapMetadata(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 1,
     },
+    {
+      url: `${BUSINESS.url}/impressum`,
+      changeFrequency: 'yearly',
+      priority: 0.2,
+    },
     ...LANDING_PAGES.map(({ slug }) => ({
       url: `${BUSINESS.url}/${slug}`,
       changeFrequency: 'monthly' as const,

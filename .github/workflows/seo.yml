@@ -201,6 +201,18 @@ jobs:
           assert.equal(sitemap.response.status, 200);
           assert.match(sitemap.body, /<loc>https:\/\/akontaxi\.ch<\/loc>/u);
 
+          const imprint = await getText('/impressum');
+          assert.equal(imprint.response.status, 200);
+          assert.match(imprint.body, /<title>Impressum \| AKON TAXI<\/title>/u);
+          assert.match(
+            imprint.body,
+            /rel="canonical" href="https:\/\/akontaxi\.ch\/impressum"/u,
+          );
+          assert.match(imprint.body, /<h1>Impressum<\/h1>/u);
+          assert.match(imprint.body, /href="\/impressum"/u);
+          assert.doesNotMatch(imprint.body, /content="noindex"/u);
+          assert.match(sitemap.body, /<loc>https:\/\/akontaxi\.ch\/impressum<\/loc>/u);
+
           const socialImage = await fetch(`${base}/opengraph-image`);
           assert.equal(socialImage.status, 200);
           assert.match(socialImage.headers.get('content-type') ?? '', /^image\/png/u);
