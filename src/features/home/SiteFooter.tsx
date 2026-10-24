@@ -14,7 +14,7 @@ export function SiteFooter() {
         </p>
       </div>
       <div className="site-footer__bottom">
-        <span>© 2026 {BUSINESS.name}</span>
+        <span>© 2026 {BUSINESS.name} · Inhaber: {BUSINESS.legal.owner}</span>
         <nav className="site-footer__legal" aria-label="Rechtliche Informationen">
           <Link href="/impressum">Impressum</Link>
         </nav>
