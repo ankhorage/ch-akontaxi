@@ -9,6 +9,15 @@ export const BUSINESS = {
   phoneInternational: '+41772366068',
   locality: 'Wetzikon',
   region: 'Zürcher Oberland',
+  legal: {
+    owner: 'Akan Usumez',
+    legalForm: 'Einzelunternehmen',
+    street: 'Ankengasse 15',
+    postalCode: '8623',
+    city: 'Wetzikon ZH',
+    country: 'Schweiz',
+    email: 'usunezakan@gmail.com',
+  },
   seo: {
     title: 'Taxi Wetzikon | AKON TAXI',
     description:
