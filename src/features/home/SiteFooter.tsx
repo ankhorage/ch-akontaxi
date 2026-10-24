@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { BUSINESS } from '../../constants/business';
 import { BrandLogo } from '../brand/BrandLogo';
 
@@ -13,6 +15,9 @@ export function SiteFooter() {
       </div>
       <div className="site-footer__bottom">
         <span>© 2026 {BUSINESS.name}</span>
+        <nav className="site-footer__legal" aria-label="Rechtliche Informationen">
+          <Link href="/impressum">Impressum</Link>
+        </nav>
         <p className="site-footer__credit">
           {'design & development by '}
           <a href="https://ankhorage.com/" target="_blank" rel="noopener noreferrer">

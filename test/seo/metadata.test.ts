@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 
 import { BUSINESS } from '../../src/constants/business';
+import { createImprintMetadata } from '../../src/features/seo/createImprintMetadata';
 import { createRobotsMetadata } from '../../src/features/seo/createRobotsMetadata';
 import { createSiteMetadata } from '../../src/features/seo/createSiteMetadata';
 import { createSitemapMetadata } from '../../src/features/seo/createSitemapMetadata';
@@ -27,6 +28,16 @@ describe('SEO metadata', () => {
     expect(metadata.verification).toEqual({ google: 'google-verification-token' });
   });
 
+  test('uses a self-canonical, discoverable legal notice without competing local-service keywords', () => {
+    const metadata = createImprintMetadata();
+
+    expect(metadata.title).toBe('Impressum');
+    expect(metadata.alternates).toEqual({ canonical: '/impressum' });
+    expect(metadata.description).toContain('AKON TAXI');
+    expect(metadata.openGraph).toMatchObject({ url: '/impressum' });
+    expect(metadata.robots).toEqual({ index: true, follow: true });
+  });
+
   test('does not emit empty Google verification metadata', () => {
     expect(createSiteMetadata('   ').verification).toBeUndefined();
   });
@@ -47,6 +58,7 @@ describe('SEO metadata', () => {
 
     expect(urls).toEqual([
       BUSINESS.url,
+      `${BUSINESS.url}/impressum`,
       ...[
         'taxi-wetzikon',
         'flughafentransfer',
