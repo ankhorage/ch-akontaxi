@@ -1,3 +1,4 @@
+import { BUSINESS } from '../../../constants/business';
 import type { LandingPageDetails } from '../../../types/landing';
 
 /*** Own canonical, factual service-page copy for paid and organic visitors. */
@@ -31,25 +32,26 @@ export const LANDING_PAGES = [
   {
     slug: 'flughafentransfer',
     label: 'Flughafentransfer',
-    title: 'Flughafentransfer Zürich anfragen',
-    description:
-      'Transfer von Wetzikon zum Flughafen Zürich telefonisch anfragen. Fahrzeit, Abholort, Reisende und Gepäck vorab besprechen.',
-    eyebrow: 'Reiseplanung',
-    heading: 'Zum Flughafen Zürich fahren.',
-    intro:
-      'Für Fahrten zum Flughafen Zürich können Sie bei AKON TAXI telefonisch anfragen. Teilen Sie Abholort, gewünschte Ankunftszeit am Flughafen und Ihre Reisedaten mit, damit die Fahrt realistisch geplant werden kann.',
+    title: `Flughafentaxi Wetzikon – ${BUSINESS.airportFare.display} Fixpreis`,
+    description: `Von ${BUSINESS.airportFare.origin} zum Flughafen Zürich: ${BUSINESS.airportFare.display} Fixpreis pro einfache Fahrt. AKON TAXI direkt telefonisch buchen.`,
+    eyebrow: `${BUSINESS.airportFare.display} Fixpreis`,
+    heading: `Flughafentaxi für ${BUSINESS.airportFare.display} Fixpreis.`,
+    intro: `Von ${BUSINESS.airportFare.origin} zum ${BUSINESS.airportFare.destination} fahren Sie mit AKON TAXI für pauschal ${BUSINESS.airportFare.display} pro einfache Fahrt. Der Fahrpreis steht vor der Buchung fest. Rufen Sie an, um Ihre Abholung zu vereinbaren.`,
     items: [
       [
-        'Abflug und Zeitfenster',
-        'Geben Sie Abflugdatum, ungefähre Check-in-Zeit und Ihre gewünschte Ankunft am Flughafen an.',
+        'Verbindlicher Fixpreis',
+        `Für die einfache Fahrt von ${BUSINESS.airportFare.origin} zum ${BUSINESS.airportFare.destination} bezahlen Sie pauschal ${BUSINESS.airportFare.display}.`,
       ],
-      ['Abholung planen', 'Nennen Sie die genaue Abholadresse in Wetzikon oder Ihrer Region.'],
+      [
+        'Abholung vereinbaren',
+        'Nennen Sie Ihre genaue Abholadresse, das Reisedatum und die gewünschte Ankunftszeit am Flughafen.',
+      ],
       [
         'Personen und Gepäck',
-        'Erwähnen Sie Anzahl Fahrgäste und grössere Gepäckstücke bereits bei der Anfrage.',
+        'Teilen Sie die Anzahl Fahrgäste und grössere Gepäckstücke bei der Buchung mit.',
       ],
     ],
-    note: 'Die Verfügbarkeit und den Preis für Ihren Flughafentransfer erhalten Sie ausschliesslich nach telefonischer Rücksprache.',
+    note: `Der Fixpreis von ${BUSINESS.airportFare.display} gilt für die einfache Fahrt von ${BUSINESS.airportFare.origin} zum ${BUSINESS.airportFare.destination}. Verfügbarkeit und Abholzeit bitte telefonisch bestätigen lassen.`,
   },
   {
     slug: 'bahnhoftransfer',
@@ -105,26 +107,27 @@ export const LANDING_PAGES = [
   },
   {
     slug: 'preise',
-    label: 'Preis anfragen',
-    title: 'Taxipreise telefonisch anfragen',
-    description:
-      'Preis für eine Taxifahrt ab oder nach Wetzikon direkt bei AKON TAXI anfragen. Strecke, Zeitpunkt und Fahrgäste besprechen.',
-    eyebrow: 'Fahrtkosten',
-    heading: 'Vor der Fahrt den Preis klären.',
-    intro:
-      'Ein konkreter Fahrtpreis hängt unter anderem von Strecke, Zeitpunkt und Fahrtanforderungen ab. Deshalb nennt diese Seite bewusst keine pauschalen Tarife, die für Ihre Fahrt möglicherweise nicht gelten.',
+    label: 'Preise',
+    title: `Taxipreise Wetzikon – Flughafentaxi ${BUSINESS.airportFare.display} Fixpreis`,
+    description: `Flughafentaxi von ${BUSINESS.airportFare.origin} zum Flughafen Zürich für ${BUSINESS.airportFare.display} Fixpreis. Preise für andere Taxifahrten telefonisch anfragen.`,
+    eyebrow: 'Transparente Fahrtkosten',
+    heading: `Zum Flughafen für ${BUSINESS.airportFare.display} Fixpreis.`,
+    intro: `Für den Flughafentransfer von ${BUSINESS.airportFare.origin} zum ${BUSINESS.airportFare.destination} gilt ein verbindlicher Pauschalpreis von ${BUSINESS.airportFare.display} pro einfache Fahrt. Preise für andere Strecken vereinbaren Sie individuell telefonisch.`,
     items: [
-      ['Strecke beschreiben', 'Nennen Sie Startadresse und Zielort möglichst genau.'],
       [
-        'Zeitpunkt mitteilen',
-        'Geben Sie gewünschte Uhrzeit und Datum an, auch bei Flughafenfahrten.',
+        'Flughafentransfer zum Fixpreis',
+        `Von ${BUSINESS.airportFare.origin} zum ${BUSINESS.airportFare.destination}: ${BUSINESS.airportFare.display} pro einfache Fahrt.`,
       ],
       [
-        'Details ergänzen',
-        'Weisen Sie auf mehrere Fahrgäste, viel Gepäck oder besondere Wünsche hin.',
+        'Andere Taxifahrten',
+        'Nennen Sie Start- und Zieladresse, damit der Preis für eine andere Strecke geklärt werden kann.',
+      ],
+      [
+        'Fahrt vereinbaren',
+        'Teilen Sie Datum, Uhrzeit sowie Anzahl Fahrgäste mit und bestätigen Sie die Abholung telefonisch.',
       ],
     ],
-    note: 'Fragen Sie den voraussichtlichen Preis und die Verfügbarkeit ausdrücklich am Telefon an, bevor Sie die Fahrt vereinbaren.',
+    note: `Der Flughafentransfer-Fixpreis beträgt ${BUSINESS.airportFare.display} für die einfache Fahrt von ${BUSINESS.airportFare.origin} zum ${BUSINESS.airportFare.destination}. Für andere Fahrten gilt der telefonisch vereinbarte Preis.`,
   },
   {
     slug: 'kontakt',
