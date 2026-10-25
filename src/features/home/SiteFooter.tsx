@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { BUSINESS } from '../../constants/business';
+import { LANDING_PAGES } from '../landing/constants/landingPages';
 import { BrandLogo } from '../brand/BrandLogo';
 
 /*** Render the compact brand and location footer. */
@@ -13,6 +14,13 @@ export function SiteFooter() {
           {BUSINESS.locality} · {BUSINESS.region}
         </p>
       </div>
+      <nav className="site-footer__services" aria-label="Taxi-Angebote">
+        {LANDING_PAGES.map(({ slug, label }) => (
+          <Link key={slug} href={`/${slug}`}>
+            {label}
+          </Link>
+        ))}
+      </nav>
       <div className="site-footer__bottom">
         <span>
           © 2026 {BUSINESS.name} · Inhaber: {BUSINESS.legal.owner}
