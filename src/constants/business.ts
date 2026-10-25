@@ -15,6 +15,15 @@ export const BUSINESS = {
     origin: 'Wetzikon und Umgebung',
     destination: 'Flughafen Zürich',
   },
+  legal: {
+    owner: 'Akan Usumez',
+    legalForm: 'Einzelunternehmen',
+    street: 'Ankengasse 15',
+    postalCode: '8623',
+    city: 'Wetzikon ZH',
+    country: 'Schweiz',
+    email: 'kontakt@akontaxi.ch',
+  },
   seo: {
     title: 'Taxi Wetzikon | AKON TAXI',
     description:
