@@ -3,6 +3,7 @@ import './globals.css';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Montserrat } from 'next/font/google';
+import Script from 'next/script';
 import type { ReactNode } from 'react';
 
 import { createSiteMetadata } from '../features/seo/createSiteMetadata';
@@ -25,6 +26,18 @@ export default function Layout({ children }: LayoutProps) {
     <html lang="de-CH">
       <body className={montserrat.variable}>
         {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18499497170"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-gtag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18499497170');
+          `}
+        </Script>
         <Analytics />
         <SpeedInsights />
       </body>
