@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 import { BUSINESS } from '../../constants/business';
-import { LANDING_PAGES } from '../landing/constants/landingPages';
 import { BrandLogo } from '../brand/BrandLogo';
+import { LANDING_PAGES } from '../landing/constants/landingPages';
 
 /*** Render the compact brand and location footer. */
 export function SiteFooter() {

@@ -19,9 +19,16 @@ export function SiteHeader({ isLanding = false }: { readonly isLanding?: boolean
         <Link href={isLanding ? '/#fahrzeug' : '#fahrzeug'}>Fahrzeug</Link>
         <Link href={isLanding ? '/kontakt' : '#kontakt'}>Kontakt</Link>
       </nav>
-      <a className="button button--small" href={BUSINESS.phoneHref}>
-        Jetzt anrufen
-      </a>
+      <div className="site-header__actions">
+        {isLanding && (
+          <Link className="site-header__back" href="/">
+            ← Zur Startseite
+          </Link>
+        )}
+        <a className="button button--small" href={BUSINESS.phoneHref}>
+          Jetzt anrufen
+        </a>
+      </div>
     </header>
   );
 }

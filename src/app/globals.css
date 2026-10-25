@@ -93,8 +93,20 @@ a {
   opacity: 1;
 }
 
-.site-header > .button {
+.site-header__actions {
+  align-items: center;
+  display: flex;
+  gap: clamp(12px, 2vw, 24px);
   justify-self: end;
+}
+
+.site-header__back {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  white-space: nowrap;
 }
 
 .brand-logo {
@@ -547,8 +559,12 @@ a {
     display: none;
   }
 
-  .site-header > .button {
+  .site-header__actions > .button {
     display: none;
+  }
+
+  .site-header__back {
+    font-size: 13px;
   }
 
   .brand-logo__mark {

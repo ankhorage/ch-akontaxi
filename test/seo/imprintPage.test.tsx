@@ -29,6 +29,7 @@ describe('Impressum route', () => {
     expect(html).toContain('href="mailto:kontakt@akontaxi.ch"');
     expect(html).not.toContain('usunezakan@gmail.com');
     expect(html).toContain('href="/"');
+    expect(html).toContain('Zur Startseite');
     expect(html).toContain('href="/impressum"');
   });
 });
