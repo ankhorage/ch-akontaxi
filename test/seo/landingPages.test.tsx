@@ -42,6 +42,8 @@ describe('Paid search service destinations', () => {
     for (const page of LANDING_PAGES) {
       const html = renderToStaticMarkup(<LandingPage page={page} />);
       expect(html).toContain(page.heading);
+      expect(html).toContain('href="/"');
+      expect(html).toContain('Zur Startseite');
       expect(html).toContain(BUSINESS.phoneHref);
       expect(html).toContain(page.note);
       expect(html).toContain(page.items[0]?.[0]);
