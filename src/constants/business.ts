@@ -16,7 +16,7 @@ export const BUSINESS = {
     postalCode: '8623',
     city: 'Wetzikon ZH',
     country: 'Schweiz',
-    email: 'usunezakan@gmail.com',
+    email: 'kontakt@akontaxi.ch',
   },
   seo: {
     title: 'Taxi Wetzikon | AKON TAXI',
