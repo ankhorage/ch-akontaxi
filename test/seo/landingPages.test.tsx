@@ -25,6 +25,19 @@ describe('Paid search service destinations', () => {
     }
   });
 
+  test('advertises a single guaranteed CHF 90 airport fare across service and pricing pages', () => {
+    const airport = findLandingPage('flughafentransfer');
+    const prices = findLandingPage('preise');
+
+    expect(airport?.heading).toContain(BUSINESS.airportFare.display);
+    expect(prices?.heading).toContain(BUSINESS.airportFare.display);
+    expect(airport?.intro).toContain(BUSINESS.airportFare.origin);
+    expect(prices?.intro).toContain(BUSINESS.airportFare.origin);
+    expect(airport?.note).toContain('einfache Fahrt');
+    expect(airport?.description).not.toContain('ab CHF');
+    expect(prices?.intro).not.toContain('keine pauschalen Tarife');
+  });
+
   test('provides a callable phone number and useful planning information', () => {
     for (const page of LANDING_PAGES) {
       const html = renderToStaticMarkup(<LandingPage page={page} />);
