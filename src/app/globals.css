@@ -481,6 +481,23 @@ a {
   text-align: right;
 }
 
+.site-footer__services {
+  align-items: center;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  padding: 20px 0;
+}
+
+.site-footer__services a {
+  color: var(--ink);
+  font-size: 13px;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--yellow) 55%, transparent);
+  text-underline-offset: 3px;
+}
+
 .site-footer__bottom {
   align-items: center;
   border-top: 1px solid var(--line);
