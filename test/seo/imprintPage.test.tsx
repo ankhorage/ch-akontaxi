@@ -25,9 +25,9 @@ describe('Impressum route', () => {
     expect(html).toContain('Rechtsform: Einzelunternehmen');
     expect(html).toContain('Ankengasse 15');
     expect(html).toContain('8623 Wetzikon ZH');
-    expect(html).toContain('usunezakan@gmail.com');
-    expect(html).toContain('href="mailto:usunezakan@gmail.com"');
-    expect(html).not.toContain('usumezakan@gmail.com');
+    expect(html).toContain('kontakt@akontaxi.ch');
+    expect(html).toContain('href="mailto:kontakt@akontaxi.ch"');
+    expect(html).not.toContain('usunezakan@gmail.com');
     expect(html).toContain('href="/"');
     expect(html).toContain('href="/impressum"');
   });
