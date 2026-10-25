@@ -3,12 +3,19 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 import { BUSINESS } from '../../src/constants/business';
 import { LandingPage } from '../../src/features/landing/LandingPage';
+import { SiteHeader } from '../../src/features/home/SiteHeader';
 import { LANDING_PAGES } from '../../src/features/landing/constants/landingPages';
 import { findLandingPage } from '../../src/features/landing/findLandingPage';
 import { generateLandingMetadata } from '../../src/features/landing/generateLandingMetadata';
 import { generateLandingStaticParams } from '../../src/features/landing/generateLandingStaticParams';
 
 describe('Paid search service destinations', () => {
+  test('keeps the homepage header free of a redundant back link', () => {
+    const html = renderToStaticMarkup(<SiteHeader />);
+
+    expect(html).not.toContain('Zur Startseite');
+  });
+
   test('has six distinct and useful landing routes', () => {
     expect(generateLandingStaticParams()).toHaveLength(6);
     expect(new Set(LANDING_PAGES.map((page) => page.slug)).size).toBe(6);
