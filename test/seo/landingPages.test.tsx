@@ -2,8 +2,8 @@ import { describe, expect, test } from 'bun:test';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 import { BUSINESS } from '../../src/constants/business';
-import { LandingPage } from '../../src/features/landing/LandingPage';
 import { SiteHeader } from '../../src/features/home/SiteHeader';
+import { LandingPage } from '../../src/features/landing/LandingPage';
 import { LANDING_PAGES } from '../../src/features/landing/constants/landingPages';
 import { findLandingPage } from '../../src/features/landing/findLandingPage';
 import { generateLandingMetadata } from '../../src/features/landing/generateLandingMetadata';
