@@ -22,7 +22,7 @@ describe('Google Ads phone conversion', () => {
     });
   });
 
-  test('reports one conversion and resumes the call once when Google Ads confirms it', () => {
+  test('reports one conversion and completes its lifecycle once when Google Ads confirms it', () => {
     const calls: GoogleAdsConversionCall[] = [];
     const googleTag = (...args: Parameters<NonNullable<Window['gtag']>>) => {
       if (args[0] === 'event') {
