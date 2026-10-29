@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { BUSINESS } from '../../constants/business';
+import { PhoneLink } from '../phone/PhoneLink';
 import { MotionReveal } from './MotionReveal';
 
 const SERVICES = [
@@ -53,7 +54,7 @@ export function ServiceSection() {
           Nennen Sie Abholort, Ziel und Zeitpunkt direkt am Telefon. AKON TAXI bestätigt persönlich,
           ob die gewünschte Fahrt möglich ist.
         </p>
-        <a href={BUSINESS.phoneHref}>Anfragen: {BUSINESS.phoneDisplay}</a>
+        <PhoneLink>Anfragen: {BUSINESS.phoneDisplay}</PhoneLink>
       </MotionReveal>
     </section>
   );

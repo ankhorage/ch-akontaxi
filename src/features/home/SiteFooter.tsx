@@ -27,6 +27,7 @@ export function SiteFooter() {
         </span>
         <nav className="site-footer__legal" aria-label="Rechtliche Informationen">
           <Link href="/impressum">Impressum</Link>
+          <Link href="/impressum#datenschutz">Datenschutz</Link>
         </nav>
         <p className="site-footer__credit">
           {'design & development by '}

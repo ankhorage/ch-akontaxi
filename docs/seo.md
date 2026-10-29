@@ -160,13 +160,32 @@ measured need.
 
 ## JavaScript and third-party audit
 
-The current public site has no Client Component boundary, no `"use client"` modules, no
-`next/script` usage, no analytics SDK and no other third-party browser script. Its visible content
-and phone actions are ordinary server-rendered HTML.
+The document shell queues a denied Google Consent Mode v2 default before any Google tag command.
+The Google Ads global tag, Vercel Analytics, and Vercel Speed Insights are loaded only after the
+visitor explicitly accepts optional measurement. The persistent, accessible settings dialog permits
+acceptance, rejection, and a later change or withdrawal. It controls `ad_storage`, `ad_user_data`,
+`ad_personalization`, and `analytics_storage` together because this site has one optional measurement
+purpose.
 
-Dynamic imports would therefore add complexity without reducing a real initial client bundle. They
-are intentionally not introduced. If a future feature adds optional client-side behavior, it should
-be measured first and split only when doing so materially improves the initial experience.
+A small `PhoneLink` Client Component reports the configured Google Ads conversion only after an
+unblocked `tel:` interaction and an explicit measurement-consent decision. The existence of the
+Google tag or its Consent Mode stub is never treated as consent. It keeps the native `tel:` link as
+the click's default browser action: no callback or timeout can defer or repeat navigation on iOS or
+Android. The privacy notice at `/impressum#datenschutz` describes the actual event and its CHF 1
+configured value without treating it as a completed call.
+
+## Google Ads conversion configuration check
+
+The Google Ads API was checked read-only on 29 October 2026. The enabled primary conversion
+`Anrufe über Website` is `CLICK_TO_CALL`, uses `AW-18499497170/cWP7CPzmyakdENLZn_VE`, and is
+configured with CHF 1 as its non-forced default value. This is a website telephone-click signal,
+not proof of a connected or completed call.
+
+The same action reports a 60-second `phone_call_duration_seconds` setting in Google Ads. A browser
+`tel:` click cannot establish that duration, so the setting must not be interpreted as website-call
+validation. The separate enabled `AD_CALL` action `Anrufe über Anzeigen` has a 20-second duration
+and CHF 20 forced value; it measures calls initiated from an ad and remains distinct. No Google Ads
+setting was changed by this repository work.
 
 The legacy FID course chapter is evaluated through the current INP model. Lighthouse TBT remains a
 lab diagnostic only; real-user INP must come from field data when sufficient traffic exists.

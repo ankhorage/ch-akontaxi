@@ -1,4 +1,5 @@
 import { BUSINESS } from '../../constants/business';
+import { PhoneLink } from '../phone/PhoneLink';
 import { createTaxiStructuredData } from '../seo/createTaxiStructuredData';
 import { ContactSection } from './ContactSection';
 import { Hero } from './Hero';
@@ -26,10 +27,10 @@ export function HomePage() {
         </main>
         <SiteFooter />
       </div>
-      <a className="mobile-call" href={BUSINESS.phoneHref}>
+      <PhoneLink className="mobile-call">
         <span aria-hidden="true">☎</span>
         {BUSINESS.phoneDisplay}
-      </a>
+      </PhoneLink>
     </>
   );
 }

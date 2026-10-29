@@ -1,6 +1,8 @@
 import { BUSINESS } from '../../constants/business';
 import { SiteFooter } from '../home/SiteFooter';
 import { SiteHeader } from '../home/SiteHeader';
+import { PhoneLink } from '../phone/PhoneLink';
+import { PrivacyNotice } from './PrivacyNotice';
 
 /*** Render confirmed proprietor, postal address and public contact details. */
 export function ImprintPage() {
@@ -34,7 +36,7 @@ export function ImprintPage() {
           <section className="imprint-page__section" aria-labelledby="imprint-contact">
             <h2 id="imprint-contact">Kontakt</h2>
             <p>
-              Telefon: <a href={BUSINESS.phoneHref}>{BUSINESS.phoneDisplay}</a>
+              Telefon: <PhoneLink>{BUSINESS.phoneDisplay}</PhoneLink>
             </p>
             <p>
               E-Mail: <a href={`mailto:${BUSINESS.legal.email}`}>{BUSINESS.legal.email}</a>
@@ -47,6 +49,7 @@ export function ImprintPage() {
             {BUSINESS.name} ist die Geschäftsbezeichnung des Einzelunternehmens von{' '}
             {BUSINESS.legal.owner}.
           </p>
+          <PrivacyNotice />
         </div>
       </main>
       <SiteFooter />
