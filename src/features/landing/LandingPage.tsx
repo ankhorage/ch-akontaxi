@@ -3,6 +3,7 @@ import type { LandingPageDetails } from '../../types/landing';
 import { ContactSection } from '../home/ContactSection';
 import { SiteFooter } from '../home/SiteFooter';
 import { SiteHeader } from '../home/SiteHeader';
+import { PhoneLink } from '../phone/PhoneLink';
 
 /*** Render a useful, accessible call-first destination without unsupported service promises. */
 export function LandingPage({ page }: { readonly page: LandingPageDetails }) {
@@ -15,10 +16,10 @@ export function LandingPage({ page }: { readonly page: LandingPageDetails }) {
             <p className="eyebrow">{page.eyebrow}</p>
             <h1 id="landing-title">{page.heading}</h1>
             <p className="landing-hero__lead">{page.intro}</p>
-            <a className="button" href={BUSINESS.phoneHref}>
+            <PhoneLink className="button">
               <span aria-hidden="true">☎</span>
               Jetzt anrufen: {BUSINESS.phoneDisplay}
-            </a>
+            </PhoneLink>
           </div>
         </section>
         <section className="landing-details section" aria-labelledby="landing-details-title">
@@ -38,10 +39,10 @@ export function LandingPage({ page }: { readonly page: LandingPageDetails }) {
         <ContactSection />
       </main>
       <SiteFooter />
-      <a className="mobile-call" href={BUSINESS.phoneHref}>
+      <PhoneLink className="mobile-call">
         <span aria-hidden="true">☎</span>
         {BUSINESS.phoneDisplay}
-      </a>
+      </PhoneLink>
     </div>
   );
 }

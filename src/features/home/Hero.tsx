@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import { BUSINESS } from '../../constants/business';
+import { PhoneLink } from '../phone/PhoneLink';
 import { MotionReveal } from './MotionReveal';
 
 /*** Render the homepage hero with explicit desktop and portrait mobile photography. */
@@ -36,17 +37,15 @@ export function Hero() {
           Oberland.
         </p>
         <div className="hero__actions">
-          <a className="button hero__call-action" href={BUSINESS.phoneHref}>
+          <PhoneLink className="button hero__call-action">
             <span aria-hidden="true">☎</span>
             Jetzt anrufen
-          </a>
+          </PhoneLink>
           <a className="button button--ghost" href="#fahrservice">
             Mehr erfahren
           </a>
         </div>
-        <a className="hero__phone" href={BUSINESS.phoneHref}>
-          {BUSINESS.phoneDisplay}
-        </a>
+        <PhoneLink className="hero__phone">{BUSINESS.phoneDisplay}</PhoneLink>
       </MotionReveal>
     </section>
   );

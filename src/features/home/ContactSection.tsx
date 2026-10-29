@@ -1,4 +1,5 @@
 import { BUSINESS } from '../../constants/business';
+import { PhoneLink } from '../phone/PhoneLink';
 import { MotionReveal } from './MotionReveal';
 
 /*** Render the final conversion section with the verified phone number. */
@@ -11,11 +12,11 @@ export function ContactSection() {
         <p>Rufen Sie AKON TAXI an und besprechen Sie Ihre Fahrt persönlich.</p>
       </MotionReveal>
       <MotionReveal className="contact-section__phone-wrap" delay={0.08} direction="right">
-        <a className="contact-section__phone" href={BUSINESS.phoneHref}>
+        <PhoneLink className="contact-section__phone">
           <small>Telefon</small>
           {BUSINESS.phoneDisplay}
           <span aria-hidden="true">→</span>
-        </a>
+        </PhoneLink>
       </MotionReveal>
     </section>
   );

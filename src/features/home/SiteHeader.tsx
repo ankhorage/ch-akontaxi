@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import { BUSINESS } from '../../constants/business';
 import { BrandLogo } from '../brand/BrandLogo';
+import { PhoneLink } from '../phone/PhoneLink';
 
 /*** Render navigation to homepage sections or service destinations and a persistent call action. */
 export function SiteHeader({ isLanding = false }: { readonly isLanding?: boolean }) {
@@ -25,9 +25,7 @@ export function SiteHeader({ isLanding = false }: { readonly isLanding?: boolean
             ← Zur Startseite
           </Link>
         )}
-        <a className="button button--small" href={BUSINESS.phoneHref}>
-          Jetzt anrufen
-        </a>
+        <PhoneLink className="button button--small">Jetzt anrufen</PhoneLink>
       </div>
     </header>
   );

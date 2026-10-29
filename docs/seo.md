@@ -160,13 +160,15 @@ measured need.
 
 ## JavaScript and third-party audit
 
-The current public site has no Client Component boundary, no `"use client"` modules, no
-`next/script` usage, no analytics SDK and no other third-party browser script. Its visible content
-and phone actions are ordinary server-rendered HTML.
+The site loads the Google Ads global tag exactly once through `next/script` in the root layout. A
+small `PhoneLink` Client Component reports the configured Google Ads conversion only after an
+unblocked `tel:` interaction, then leaves the browser's call navigation unchanged. It neither
+counts page views as calls nor installs a second tag or Google Tag Manager.
 
-Dynamic imports would therefore add complexity without reducing a real initial client bundle. They
-are intentionally not introduced. If a future feature adds optional client-side behavior, it should
-be measured first and split only when doing so materially improves the initial experience.
+The conversion event uses the existing Google tag consent state and does not set, override, or
+bypass Consent Mode. Before production tracking is relied on, the site owner must ensure that the
+chosen consent-management and privacy-notice configuration initializes and updates Consent Mode for
+the Google Ads tag.
 
 The legacy FID course chapter is evaluated through the current INP model. Lighthouse TBT remains a
 lab diagnostic only; real-user INP must come from field data when sufficient traffic exists.
