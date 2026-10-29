@@ -24,10 +24,11 @@ describe('Google consent state', () => {
     });
   });
 
-  test('does not render optional measurement tags before the visitor chooses', () => {
+  test('does not render optional Google or Vercel measurement before the visitor chooses', () => {
     const markup = renderToStaticMarkup(createElement(ConsentManager));
 
     expect(markup).not.toContain('googletagmanager.com');
+    expect(markup).not.toContain('vercel');
     expect(markup).toContain('Datenschutz-Einstellungen');
   });
 });
