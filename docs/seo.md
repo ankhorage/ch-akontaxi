@@ -165,10 +165,11 @@ small `PhoneLink` Client Component reports the configured Google Ads conversion 
 unblocked `tel:` interaction, then leaves the browser's call navigation unchanged. It neither
 counts page views as calls nor installs a second tag or Google Tag Manager.
 
-The conversion event uses the existing Google tag consent state and does not set, override, or
-bypass Consent Mode. Before production tracking is relied on, the site owner must ensure that the
-chosen consent-management and privacy-notice configuration initializes and updates Consent Mode for
-the Google Ads tag.
+The conversion event uses the existing Google tag state and does not set, override, or bypass
+Consent Mode. It waits at most 500 milliseconds for the Google Ads callback, then continues the
+telephone navigation even if the tag is delayed or unavailable. This repository currently has no
+consent-management or privacy-notice implementation that initializes and updates Consent Mode; that
+must be completed and accepted separately before production tracking is relied on.
 
 The legacy FID course chapter is evaluated through the current INP model. Lighthouse TBT remains a
 lab diagnostic only; real-user INP must come from field data when sufficient traffic exists.

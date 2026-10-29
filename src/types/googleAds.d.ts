@@ -9,6 +9,8 @@ declare global {
         readonly send_to: string;
         readonly value: number;
         readonly currency: string;
+        readonly event_timeout?: number;
+        readonly event_callback?: () => void;
       },
     ) => void;
   }

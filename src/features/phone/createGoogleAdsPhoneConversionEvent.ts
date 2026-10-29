@@ -4,5 +4,6 @@ export function createGoogleAdsPhoneConversionEvent() {
     send_to: 'AW-18499497170/cWP7CPzmyakdENLZn_VE',
     value: 1,
     currency: 'CHF',
+    event_timeout: 500,
   } as const;
 }

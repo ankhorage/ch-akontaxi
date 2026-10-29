@@ -13,7 +13,13 @@ export function PhoneLink({ onClick, ...props }: PhoneLinkProps) {
     onClick?.(event);
 
     if (!event.defaultPrevented) {
-      reportGoogleAdsPhoneConversion(window.gtag);
+      const isTracking = reportGoogleAdsPhoneConversion(window.gtag, () => {
+        window.location.assign(BUSINESS.phoneHref);
+      });
+
+      if (isTracking) {
+        event.preventDefault();
+      }
     }
   };
 
