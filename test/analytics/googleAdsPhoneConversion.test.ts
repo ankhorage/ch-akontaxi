@@ -18,20 +18,17 @@ describe('Google Ads phone conversion', () => {
       send_to: 'AW-18499497170/cWP7CPzmyakdENLZn_VE',
       value: 1,
       currency: 'CHF',
-      event_timeout: 500,
     });
   });
 
-  test('reports one conversion and completes its lifecycle once when Google Ads confirms it', () => {
+  test('reports one conversion without changing telephone navigation', () => {
     const calls: GoogleAdsConversionCall[] = [];
     const googleTag = (...args: Parameters<NonNullable<Window['gtag']>>) => {
       if (args[0] === 'event') {
         calls.push(args);
       }
     };
-    let completionCount = 0;
-
-    expect(reportGoogleAdsPhoneConversion(googleTag, () => (completionCount += 1))).toBe(true);
+    expect(reportGoogleAdsPhoneConversion(googleTag)).toBe(true);
 
     expect(calls).toEqual([
       [
@@ -41,65 +38,70 @@ describe('Google Ads phone conversion', () => {
           send_to: 'AW-18499497170/cWP7CPzmyakdENLZn_VE',
           value: 1,
           currency: 'CHF',
-          event_timeout: 500,
-          event_callback: expect.any(Function),
         },
       ],
     ]);
-
-    const eventCallback = calls[0]?.[2].event_callback;
-    eventCallback?.();
-    eventCallback?.();
-
-    expect(completionCount).toBe(1);
-  });
-
-  test('uses the configured 500-ms timeout and completes only once when callback and timeout race', () => {
-    const calls: GoogleAdsConversionCall[] = [];
-    const googleTag = (...args: Parameters<NonNullable<Window['gtag']>>) => {
-      if (args[0] === 'event') {
-        calls.push(args);
-      }
-    };
-    const scheduled: Array<() => void> = [];
-    const cleared: Array<ReturnType<typeof setTimeout>> = [];
-    let completionCount = 0;
-
-    reportGoogleAdsPhoneConversion(googleTag, () => (completionCount += 1), {
-      setTimeout: (callback, delay) => {
-        expect(delay).toBe(500);
-        scheduled.push(callback);
-        return 1 as unknown as ReturnType<typeof setTimeout>;
-      },
-      clearTimeout: (timeout) => cleared.push(timeout),
-    });
-
-    const eventCallback = calls[0]?.[2].event_callback;
-    eventCallback?.();
-    scheduled[0]?.();
-
-    expect(cleared).toHaveLength(1);
-    expect(completionCount).toBe(1);
   });
 
   test('does not delay a call when the Google tag is unavailable', () => {
-    expect(reportGoogleAdsPhoneConversion(undefined, () => undefined)).toBe(false);
+    expect(reportGoogleAdsPhoneConversion(undefined)).toBe(false);
   });
 
-  test('does not report a prevented phone click', () => {
+  test.each([
+    ['without a decision', false],
+    ['after rejection', false],
+    ['after withdrawal', false],
+  ])('does not report a click %s', (_scenario, hasMeasurementConsent) => {
     let reportCount = 0;
     const googleTag = (..._args: Parameters<NonNullable<Window['gtag']>>) => (reportCount += 1);
 
-    expect(handlePhoneLinkClick({ defaultPrevented: true, googleTag })).toBe(false);
+    expect(
+      handlePhoneLinkClick({ defaultPrevented: false, googleTag, hasMeasurementConsent }),
+    ).toBe(false);
     expect(reportCount).toBe(0);
   });
 
-  test('keeps native telephone navigation untouched while reporting an allowed click', () => {
+  test('does not treat an existing Google tag stub as consent', () => {
     let reportCount = 0;
     const googleTag = (..._args: Parameters<NonNullable<Window['gtag']>>) => (reportCount += 1);
 
-    expect(handlePhoneLinkClick({ defaultPrevented: false, googleTag })).toBe(true);
+    expect(
+      handlePhoneLinkClick({ defaultPrevented: false, googleTag, hasMeasurementConsent: false }),
+    ).toBe(false);
+    expect(reportCount).toBe(0);
+  });
+
+  test('reports exactly once for each consented, unblocked phone click', () => {
+    let reportCount = 0;
+    const googleTag = (..._args: Parameters<NonNullable<Window['gtag']>>) => (reportCount += 1);
+
+    expect(
+      handlePhoneLinkClick({ defaultPrevented: false, googleTag, hasMeasurementConsent: true }),
+    ).toBe(true);
+    expect(
+      handlePhoneLinkClick({ defaultPrevented: false, googleTag, hasMeasurementConsent: true }),
+    ).toBe(true);
+    expect(reportCount).toBe(2);
+  });
+
+  test('reports only new clicks after consent is granted again', () => {
+    let reportCount = 0;
+    const googleTag = (..._args: Parameters<NonNullable<Window['gtag']>>) => (reportCount += 1);
+
+    handlePhoneLinkClick({ defaultPrevented: false, googleTag, hasMeasurementConsent: false });
+    handlePhoneLinkClick({ defaultPrevented: false, googleTag, hasMeasurementConsent: true });
+
     expect(reportCount).toBe(1);
+  });
+
+  test('does not report a prevented phone click even with consent', () => {
+    let reportCount = 0;
+    const googleTag = (..._args: Parameters<NonNullable<Window['gtag']>>) => (reportCount += 1);
+
+    expect(
+      handlePhoneLinkClick({ defaultPrevented: true, googleTag, hasMeasurementConsent: true }),
+    ).toBe(false);
+    expect(reportCount).toBe(0);
   });
 
   test.each(['iOS Safari', 'Android Chrome'])(

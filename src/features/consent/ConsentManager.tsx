@@ -1,18 +1,24 @@
 'use client';
 
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import Script from 'next/script';
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 import { createGoogleConsentState } from './createGoogleConsentState';
+import { MeasurementConsentContext } from './MeasurementConsentContext';
 
 const CONSENT_STORAGE_KEY = 'akon-taxi-google-consent';
 const GOOGLE_ADS_TAG_ID = 'AW-18499497170';
 
 type ConsentChoice = 'granted' | 'denied';
 
+interface ConsentManagerProps {
+  readonly children?: ReactNode;
+}
+
 /*** Render the accessible, persistent consent choice that controls optional Google Ads measurement. */
-export function ConsentManager() {
+export function ConsentManager({ children }: ConsentManagerProps) {
   const [choice, setChoice] = useState<ConsentChoice | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   useEffect(() => {
@@ -37,7 +43,8 @@ export function ConsentManager() {
 
   const isOpen = choice === null || isSettingsOpen;
   return (
-    <>
+    <MeasurementConsentContext.Provider value={choice === 'granted'}>
+      {children}
       <GoogleMeasurement isEnabled={choice === 'granted'} />
       {isOpen ? (
         <ConsentDialog
@@ -56,7 +63,7 @@ export function ConsentManager() {
           Datenschutz-Einstellungen
         </button>
       )}
-    </>
+    </MeasurementConsentContext.Provider>
   );
 }
 
@@ -74,6 +81,7 @@ function GoogleMeasurement({ isEnabled }: GoogleMeasurementProps) {
         strategy="afterInteractive"
       />
       <Analytics />
+      <SpeedInsights />
     </>
   ) : null;
 }

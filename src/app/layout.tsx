@@ -1,6 +1,5 @@
 import './globals.css';
 
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Montserrat } from 'next/font/google';
 import Script from 'next/script';
 import type { ReactNode } from 'react';
@@ -38,9 +37,7 @@ export default function Layout({ children }: LayoutProps) {
             window.gtag('js', new Date());
           `}
         </Script>
-        {children}
-        <ConsentManager />
-        <SpeedInsights />
+        <ConsentManager>{children}</ConsentManager>
       </body>
     </html>
   );

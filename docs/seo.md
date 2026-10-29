@@ -161,18 +161,18 @@ measured need.
 ## JavaScript and third-party audit
 
 The document shell queues a denied Google Consent Mode v2 default before any Google tag command.
-The Google Ads global tag is loaded exactly once, and Vercel Analytics is loaded, only after the
+The Google Ads global tag, Vercel Analytics, and Vercel Speed Insights are loaded only after the
 visitor explicitly accepts optional measurement. The persistent, accessible settings dialog permits
 acceptance, rejection, and a later change or withdrawal. It controls `ad_storage`, `ad_user_data`,
-`ad_personalization`, and `analytics_storage` together because this site has one optional
-measurement purpose.
+`ad_personalization`, and `analytics_storage` together because this site has one optional measurement
+purpose.
 
 A small `PhoneLink` Client Component reports the configured Google Ads conversion only after an
-unblocked `tel:` interaction and only when the Google tag is available. It keeps the native `tel:`
-link as the click's default browser action: no callback or timeout can defer or repeat navigation on
-iOS or Android. The conversion lifecycle uses Google's 500-millisecond event timeout solely to
-finish measurement once; it does not control a call. The privacy notice at `/impressum#datenschutz`
-describes the actual event and its CHF 1 configured value without treating it as a completed call.
+unblocked `tel:` interaction and an explicit measurement-consent decision. The existence of the
+Google tag or its Consent Mode stub is never treated as consent. It keeps the native `tel:` link as
+the click's default browser action: no callback or timeout can defer or repeat navigation on iOS or
+Android. The privacy notice at `/impressum#datenschutz` describes the actual event and its CHF 1
+configured value without treating it as a completed call.
 
 ## Google Ads conversion configuration check
 
