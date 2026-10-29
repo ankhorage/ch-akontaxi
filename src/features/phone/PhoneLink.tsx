@@ -3,24 +3,16 @@
 import type { ComponentPropsWithoutRef } from 'react';
 
 import { BUSINESS } from '../../constants/business';
-import { reportGoogleAdsPhoneConversion } from './reportGoogleAdsPhoneConversion';
+import { handlePhoneLinkClick } from './handlePhoneLinkClick';
 
 type PhoneLinkProps = Omit<ComponentPropsWithoutRef<'a'>, 'href'>;
 
-/*** Render the verified call link and report each unblocked phone interaction once to Google Ads. */
+/*** Render the verified call link and preserve native telephone navigation on every supported device. */
 export function PhoneLink({ onClick, ...props }: PhoneLinkProps) {
   const handleClick: PhoneLinkProps['onClick'] = (event) => {
     onClick?.(event);
 
-    if (!event.defaultPrevented) {
-      const isTracking = reportGoogleAdsPhoneConversion(window.gtag, () => {
-        window.location.assign(BUSINESS.phoneHref);
-      });
-
-      if (isTracking) {
-        event.preventDefault();
-      }
-    }
+    handlePhoneLinkClick({ defaultPrevented: event.defaultPrevented, googleTag: window.gtag });
   };
 
   return <a {...props} href={BUSINESS.phoneHref} onClick={handleClick} />;

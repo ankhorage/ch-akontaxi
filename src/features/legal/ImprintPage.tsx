@@ -2,6 +2,7 @@ import { BUSINESS } from '../../constants/business';
 import { SiteFooter } from '../home/SiteFooter';
 import { SiteHeader } from '../home/SiteHeader';
 import { PhoneLink } from '../phone/PhoneLink';
+import { PrivacyNotice } from './PrivacyNotice';
 
 /*** Render confirmed proprietor, postal address and public contact details. */
 export function ImprintPage() {
@@ -48,6 +49,7 @@ export function ImprintPage() {
             {BUSINESS.name} ist die Geschäftsbezeichnung des Einzelunternehmens von{' '}
             {BUSINESS.legal.owner}.
           </p>
+          <PrivacyNotice />
         </div>
       </main>
       <SiteFooter />

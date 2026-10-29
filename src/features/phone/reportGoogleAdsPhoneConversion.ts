@@ -1,7 +1,19 @@
 import { createGoogleAdsPhoneConversionEvent } from './createGoogleAdsPhoneConversionEvent';
 
-/*** Report one phone conversion and resume the telephone navigation when Google Ads completes or times out. */
-export function reportGoogleAdsPhoneConversion(googleTag: Window['gtag'], onComplete: () => void) {
+interface TimeoutController {
+  readonly clearTimeout: (timeout: ReturnType<typeof globalThis.setTimeout>) => void;
+  readonly setTimeout: (
+    callback: () => void,
+    delay: number,
+  ) => ReturnType<typeof globalThis.setTimeout>;
+}
+
+/*** Report one phone conversion and complete its measurement lifecycle once without controlling navigation. */
+export function reportGoogleAdsPhoneConversion(
+  googleTag: Window['gtag'],
+  onComplete: () => void,
+  timeouts: TimeoutController = globalThis,
+) {
   if (!googleTag) {
     return false;
   }
@@ -13,7 +25,7 @@ export function reportGoogleAdsPhoneConversion(googleTag: Window['gtag'], onComp
       onComplete();
     }
   };
-  const timeout = globalThis.setTimeout(
+  const timeout = timeouts.setTimeout(
     complete,
     createGoogleAdsPhoneConversionEvent().event_timeout,
   );
@@ -21,7 +33,7 @@ export function reportGoogleAdsPhoneConversion(googleTag: Window['gtag'], onComp
   googleTag('event', 'conversion', {
     ...createGoogleAdsPhoneConversionEvent(),
     event_callback: () => {
-      globalThis.clearTimeout(timeout);
+      timeouts.clearTimeout(timeout);
       complete();
     },
   });

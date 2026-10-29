@@ -160,16 +160,32 @@ measured need.
 
 ## JavaScript and third-party audit
 
-The site loads the Google Ads global tag exactly once through `next/script` in the root layout. A
-small `PhoneLink` Client Component reports the configured Google Ads conversion only after an
-unblocked `tel:` interaction, then leaves the browser's call navigation unchanged. It neither
-counts page views as calls nor installs a second tag or Google Tag Manager.
+The document shell queues a denied Google Consent Mode v2 default before any Google tag command.
+The Google Ads global tag is loaded exactly once, and Vercel Analytics is loaded, only after the
+visitor explicitly accepts optional measurement. The persistent, accessible settings dialog permits
+acceptance, rejection, and a later change or withdrawal. It controls `ad_storage`, `ad_user_data`,
+`ad_personalization`, and `analytics_storage` together because this site has one optional
+measurement purpose.
 
-The conversion event uses the existing Google tag state and does not set, override, or bypass
-Consent Mode. It waits at most 500 milliseconds for the Google Ads callback, then continues the
-telephone navigation even if the tag is delayed or unavailable. This repository currently has no
-consent-management or privacy-notice implementation that initializes and updates Consent Mode; that
-must be completed and accepted separately before production tracking is relied on.
+A small `PhoneLink` Client Component reports the configured Google Ads conversion only after an
+unblocked `tel:` interaction and only when the Google tag is available. It keeps the native `tel:`
+link as the click's default browser action: no callback or timeout can defer or repeat navigation on
+iOS or Android. The conversion lifecycle uses Google's 500-millisecond event timeout solely to
+finish measurement once; it does not control a call. The privacy notice at `/impressum#datenschutz`
+describes the actual event and its CHF 1 configured value without treating it as a completed call.
+
+## Google Ads conversion configuration check
+
+The Google Ads API was checked read-only on 29 October 2026. The enabled primary conversion
+`Anrufe über Website` is `CLICK_TO_CALL`, uses `AW-18499497170/cWP7CPzmyakdENLZn_VE`, and is
+configured with CHF 1 as its non-forced default value. This is a website telephone-click signal,
+not proof of a connected or completed call.
+
+The same action reports a 60-second `phone_call_duration_seconds` setting in Google Ads. A browser
+`tel:` click cannot establish that duration, so the setting must not be interpreted as website-call
+validation. The separate enabled `AD_CALL` action `Anrufe über Anzeigen` has a 20-second duration
+and CHF 20 forced value; it measures calls initiated from an ad and remains distinct. No Google Ads
+setting was changed by this repository work.
 
 The legacy FID course chapter is evaluated through the current INP model. Lighthouse TBT remains a
 lab diagnostic only; real-user INP must come from field data when sufficient traffic exists.
