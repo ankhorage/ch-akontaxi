@@ -25,13 +25,9 @@ describe('Google consent state', () => {
   });
 
   test('renders no consent overlay or optional measurement while campaigns are paused', () => {
-    const markup = renderToStaticMarkup(
-      createElement(
-        ConsentManager,
-        { measurementEnabled: false },
-        createElement('a', { href: 'tel:+41772366068' }, '077 236 60 68'),
-      ),
-    );
+    const phone = createElement('a', { href: 'tel:+41772366068' }, '077 236 60 68');
+    const consent = createElement(ConsentManager, { measurementEnabled: false }, phone);
+    const markup = renderToStaticMarkup(consent);
 
     expect(markup).toContain('href="tel:+41772366068"');
     expect(markup).not.toContain('consent-manager');
@@ -40,14 +36,16 @@ describe('Google consent state', () => {
   });
 
   test('keeps all optional measurement unloaded until opt-in even when enabled', () => {
-    const markup = renderToStaticMarkup(createElement(ConsentManager, { measurementEnabled: true }));
+    const consent = createElement(ConsentManager, { measurementEnabled: true });
+    const markup = renderToStaticMarkup(consent);
 
     expect(markup).not.toContain('googletagmanager.com');
     expect(markup).not.toContain('vercel');
   });
 
   test('does not use a full-screen modal for the optional consent panel', async () => {
-    const stylesheet = await Bun.file(new URL('../../src/app/globals.css', import.meta.url)).text();
+    const cssUrl = new URL('../../src/app/globals.css', import.meta.url);
+    const stylesheet = await Bun.file(cssUrl).text();
     const panel = stylesheet.split('.consent-manager {')[1]?.split('}', 1)[0] ?? '';
 
     expect(panel).toContain('position: fixed');
