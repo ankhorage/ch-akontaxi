@@ -9,9 +9,10 @@ describe('Impressum route', () => {
   test('links the legal notice from the shared footer', () => {
     const html = renderToStaticMarkup(<SiteFooter />);
 
-    expect(html).toContain('href="/impressum"');
+    expect(html).toContain('© 2026 AKON TAXI · ');
     expect(html).toContain('>Impressum</a>');
-    expect(html).toContain('Inhaber: Akan Usumez');
+    expect(html.match(/href="\/impressum"/g)).toHaveLength(1);
+    expect(html).not.toContain('href="/impressum#datenschutz"');
   });
 
   test('shows confirmed proprietor, address and contact details with a route home', () => {
@@ -31,5 +32,8 @@ describe('Impressum route', () => {
     expect(html).toContain('href="/"');
     expect(html).toContain('Zur Startseite');
     expect(html).toContain('href="/impressum"');
+    expect(html).toContain('Datenschutz</h2>');
+    expect(html).toContain('Für den sicheren Betrieb dieser Website');
+    expect(html).not.toContain('optionale Werbe- und Nutzungsanalyse derzeit deaktiviert');
   });
 });
