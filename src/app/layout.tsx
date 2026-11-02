@@ -21,23 +21,27 @@ interface LayoutProps {
 
 /*** Render the document shell and shared search/social metadata for every route. */
 export default function Layout({ children }: LayoutProps) {
+  // The paused campaign does not justify loading optional measurement. Requires a new build to enable.
+  const measurementEnabled = process.env.GOOGLE_ADS_MEASUREMENT_ENABLED === 'true';
   return (
     <html lang="de-CH">
       <body className={montserrat.variable}>
-        <Script id="google-consent-default" strategy="beforeInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
-            window.gtag('consent', 'default', {
-              ad_storage: 'denied',
-              ad_user_data: 'denied',
-              ad_personalization: 'denied',
-              analytics_storage: 'denied'
-            });
-            window.gtag('js', new Date());
-          `}
-        </Script>
-        <ConsentManager>{children}</ConsentManager>
+        {measurementEnabled ? (
+          <Script id="google-consent-default" strategy="beforeInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+              window.gtag('consent', 'default', {
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                analytics_storage: 'denied'
+              });
+              window.gtag('js', new Date());
+            `}
+          </Script>
+        ) : null}
+        <ConsentManager measurementEnabled={measurementEnabled}>{children}</ConsentManager>
       </body>
     </html>
   );
