@@ -20,8 +20,13 @@ interface ConsentManagerProps {
 
 /*** Render no tracking or consent UI unless optional measurement is explicitly enabled at build time. */
 export function ConsentManager({ children, measurementEnabled = false }: ConsentManagerProps) {
-  if (!measurementEnabled)
-    return <MeasurementConsentContext.Provider value={false}>{children}</MeasurementConsentContext.Provider>;
+  if (!measurementEnabled) {
+    return (
+      <MeasurementConsentContext.Provider value={false}>
+        {children}
+      </MeasurementConsentContext.Provider>
+    );
+  }
   return <EnabledConsentManager>{children}</EnabledConsentManager>;
 }
 
@@ -66,7 +71,6 @@ function EnabledConsentManager({ children }: Pick<ConsentManagerProps, 'children
         />
       ) : (
         <button
-          aria-haspopup="dialog"
           className="consent-manager__reopen"
           onClick={() => setIsSettingsOpen(true)}
           type="button"
@@ -104,11 +108,7 @@ interface ConsentDialogProps {
 }
 
 /*** Render the focused choice dialog without adding a separate third-party consent platform. */
-function ConsentDialog({
-  isSettingsOpen,
-  onAccept,
-  onDecline,
-}: ConsentDialogProps) {
+function ConsentDialog({ isSettingsOpen, onAccept, onDecline }: ConsentDialogProps) {
   return (
     <aside
       aria-describedby="consent-description"
