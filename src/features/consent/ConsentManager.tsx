@@ -2,6 +2,7 @@
 
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import Link from 'next/link';
 import Script from 'next/script';
 import { type ReactNode, useEffect, useState } from 'react';
 
@@ -118,13 +119,13 @@ function ConsentDialog({ isSettingsOpen, onAccept, onDecline }: ConsentDialogPro
       <div className="consent-manager__content">
         <h2 id="consent-title">Optionale Messung</h2>
         <p id="consent-description">
-          Dürfen wir Google Ads für Werbe- und Anrufmessung sowie Vercel für
-          Nutzungsstatistiken verwenden? Auch ohne Zustimmung können Sie uns jederzeit anrufen.
+          Dürfen wir Google Ads für Werbe- und Anrufmessung sowie Vercel für Nutzungsstatistiken
+          verwenden? Auch ohne Zustimmung können Sie uns jederzeit anrufen.
         </p>
         {isSettingsOpen ? (
           <p>
-            Sie können Ihre Einwilligung jederzeit widerrufen. Details finden Sie in
-            unserer <a href="/impressum#datenschutz">Datenschutzerklärung</a>.
+            Sie können Ihre Einwilligung jederzeit widerrufen. Details finden Sie in unserer{' '}
+            <Link href="/impressum#datenschutz">Datenschutzerklärung</Link>.
           </p>
         ) : null}
         <div className="consent-manager__actions">
@@ -134,9 +135,9 @@ function ConsentDialog({ isSettingsOpen, onAccept, onDecline }: ConsentDialogPro
           <button className="button button--ghost" onClick={onDecline} type="button">
             Ablehnen
           </button>
-          <a className="consent-manager__details" href="/impressum#datenschutz">
+          <Link className="consent-manager__details" href="/impressum#datenschutz">
             Datenschutz
-          </a>
+          </Link>
         </div>
       </div>
     </aside>
