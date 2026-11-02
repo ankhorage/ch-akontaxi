@@ -40,18 +40,14 @@ describe('Google consent state', () => {
   });
 
   test('keeps all optional measurement unloaded until opt-in even when enabled', () => {
-    const markup = renderToStaticMarkup(
-      createElement(ConsentManager, { measurementEnabled: true }),
-    );
+    const markup = renderToStaticMarkup(createElement(ConsentManager, { measurementEnabled: true }));
 
     expect(markup).not.toContain('googletagmanager.com');
     expect(markup).not.toContain('vercel');
   });
 
   test('does not use a full-screen modal for the optional consent panel', async () => {
-    const stylesheet = await Bun.file(
-      new URL('../../src/app/globals.css', import.meta.url),
-    ).text();
+    const stylesheet = await Bun.file(new URL('../../src/app/globals.css', import.meta.url)).text();
     const panel = stylesheet.split('.consent-manager {')[1]?.split('}', 1)[0] ?? '';
 
     expect(panel).toContain('position: fixed');
