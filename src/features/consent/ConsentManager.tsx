@@ -2,24 +2,39 @@
 
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import Link from 'next/link';
 import Script from 'next/script';
 import { type ReactNode, useEffect, useState } from 'react';
 
 import { createGoogleConsentState } from './createGoogleConsentState';
 import { MeasurementConsentContext } from './MeasurementConsentContext';
 
-const CONSENT_STORAGE_KEY = 'akon-taxi-google-consent';
+const CONSENT_STORAGE_KEY = 'akon-taxi-google-consent-v2';
 const GOOGLE_ADS_TAG_ID = 'AW-18499497170';
 
 type ConsentChoice = 'granted' | 'denied';
 
 interface ConsentManagerProps {
   readonly children?: ReactNode;
+  readonly measurementEnabled?: boolean;
 }
 
-/*** Render the accessible, persistent consent choice that controls optional Google Ads measurement. */
-export function ConsentManager({ children }: ConsentManagerProps) {
+/*** Render no tracking or consent UI unless optional measurement is explicitly enabled at build time. */
+export function ConsentManager({ children, measurementEnabled = false }: ConsentManagerProps) {
+  if (!measurementEnabled) {
+    return (
+      <MeasurementConsentContext.Provider value={false}>
+        {children}
+      </MeasurementConsentContext.Provider>
+    );
+  }
+  return <EnabledConsentManager>{children}</EnabledConsentManager>;
+}
+
+/*** Preserve explicit opt-in and revocation only when optional measurement is enabled. */
+function EnabledConsentManager({ children }: Pick<ConsentManagerProps, 'children'>) {
   const [choice, setChoice] = useState<ConsentChoice | null>(null);
+  const [isReady, setIsReady] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -29,6 +44,7 @@ export function ConsentManager({ children }: ConsentManagerProps) {
         updateGoogleConsent(storedChoice);
         setChoice(storedChoice);
       }
+      setIsReady(true);
     });
 
     return () => window.clearTimeout(timeout);
@@ -39,9 +55,11 @@ export function ConsentManager({ children }: ConsentManagerProps) {
     updateGoogleConsent(nextChoice);
     setChoice(nextChoice);
     setIsSettingsOpen(false);
+    // A previously loaded measurement script must not survive a consent withdrawal.
+    if (nextChoice === 'denied' && choice === 'granted') window.location.reload();
   };
 
-  const isOpen = choice === null || isSettingsOpen;
+  const isOpen = isReady && (choice === null || isSettingsOpen);
   return (
     <MeasurementConsentContext.Provider value={choice === 'granted'}>
       {children}
@@ -51,11 +69,9 @@ export function ConsentManager({ children }: ConsentManagerProps) {
           isSettingsOpen={isSettingsOpen}
           onAccept={() => saveChoice('granted')}
           onDecline={() => saveChoice('denied')}
-          onOpenSettings={() => setIsSettingsOpen(true)}
         />
       ) : (
         <button
-          aria-haspopup="dialog"
           className="consent-manager__reopen"
           onClick={() => setIsSettingsOpen(true)}
           type="button"
@@ -90,35 +106,26 @@ interface ConsentDialogProps {
   readonly isSettingsOpen: boolean;
   readonly onAccept: () => void;
   readonly onDecline: () => void;
-  readonly onOpenSettings: () => void;
 }
 
 /*** Render the focused choice dialog without adding a separate third-party consent platform. */
-function ConsentDialog({
-  isSettingsOpen,
-  onAccept,
-  onDecline,
-  onOpenSettings,
-}: ConsentDialogProps) {
+function ConsentDialog({ isSettingsOpen, onAccept, onDecline }: ConsentDialogProps) {
   return (
-    <section
+    <aside
       aria-describedby="consent-description"
       aria-labelledby="consent-title"
-      aria-modal="true"
       className="consent-manager"
-      role="dialog"
     >
       <div className="consent-manager__content">
-        <h2 id="consent-title">Datenschutz-Einstellungen</h2>
+        <h2 id="consent-title">Optionale Messung</h2>
         <p id="consent-description">
-          Mit Ihrer Zustimmung messen wir ausschliesslich Klicks auf unsere Telefonnummer als
-          Google-Ads-Conversion. Die Telefonfunktion bleibt immer verfügbar.
+          Dürfen wir Google Ads für Werbe- und Anrufmessung sowie Vercel für Nutzungsstatistiken
+          verwenden? Auch ohne Zustimmung können Sie uns jederzeit anrufen.
         </p>
         {isSettingsOpen ? (
           <p>
-            Die optionale Google-Ads-Messung verwendet Google Consent Mode für Anzeigen-Speicherung,
-            Anzeigen-Nutzerdaten, Anzeigen-Personalisierung und Analytics-Speicherung gemeinsam. Sie
-            können diese Auswahl jederzeit hier ändern.
+            Sie können Ihre Einwilligung jederzeit widerrufen. Details finden Sie in unserer{' '}
+            <Link href="/impressum#datenschutz">Datenschutzerklärung</Link>.
           </p>
         ) : null}
         <div className="consent-manager__actions">
@@ -128,14 +135,12 @@ function ConsentDialog({
           <button className="button button--ghost" onClick={onDecline} type="button">
             Ablehnen
           </button>
-          {!isSettingsOpen ? (
-            <button className="consent-manager__settings" onClick={onOpenSettings} type="button">
-              Einstellungen
-            </button>
-          ) : null}
+          <Link className="consent-manager__details" href="/impressum#datenschutz">
+            Datenschutz
+          </Link>
         </div>
       </div>
-    </section>
+    </aside>
   );
 }
 
