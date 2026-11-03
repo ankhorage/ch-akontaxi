@@ -1,35 +1,40 @@
-import Image from 'next/image';
+import { getImageProps } from 'next/image';
 
 import { BUSINESS } from '../../constants/business';
 import { PhoneLink } from '../phone/PhoneLink';
-import { MotionReveal } from './MotionReveal';
 
-/*** Render the homepage hero with explicit desktop and portrait mobile photography. */
+/*** Render one responsive, eagerly discoverable hero image without hiding first-viewport content. */
 export function Hero() {
+  const {
+    props: { srcSet: mobileSrcSet },
+  } = getImageProps({
+    alt: '',
+    fill: true,
+    quality: 60,
+    sizes: '100vw',
+    src: '/images/hero-mobile-approved.webp',
+  });
+  const { props: desktopImage } = getImageProps({
+    alt: '',
+    decoding: 'sync',
+    fetchPriority: 'high',
+    fill: true,
+    loading: 'eager',
+    quality: 75,
+    sizes: '100vw',
+    src: '/images/hero-desktop-approved.webp',
+  });
+
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero__media" aria-hidden="true">
-        <Image
-          className="hero__image hero__image--desktop"
-          src="/images/hero-desktop-approved.webp"
-          alt=""
-          fill
-          loading="eager"
-          fetchPriority="high"
-          sizes="(max-width: 860px) 1px, 100vw"
-        />
-        <Image
-          className="hero__image hero__image--mobile"
-          src="/images/hero-mobile-approved.webp"
-          alt=""
-          fill
-          loading="eager"
-          fetchPriority="high"
-          sizes="(max-width: 860px) 100vw, 1px"
-        />
+        <picture>
+          <source media="(max-width: 860px)" sizes="100vw" srcSet={mobileSrcSet} />
+          <img {...desktopImage} className="hero__image" />
+        </picture>
       </div>
       <div className="hero__overlay" />
-      <MotionReveal className="hero__content" distance={18} immediate>
+      <div className="hero__content">
         <p className="eyebrow">Ihr Taxi in Wetzikon</p>
         <h1 id="hero-title">Taxi Wetzikon. Persönlich. Lokal. Direkt erreichbar.</h1>
         <p className="hero__lead">
@@ -46,7 +51,7 @@ export function Hero() {
           </a>
         </div>
         <PhoneLink className="hero__phone">{BUSINESS.phoneDisplay}</PhoneLink>
-      </MotionReveal>
+      </div>
     </section>
   );
 }
