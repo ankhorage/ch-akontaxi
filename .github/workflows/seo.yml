@@ -87,6 +87,14 @@ jobs:
           cat /tmp/akontaxi-baseline-next.log
           exit 1
 
+      - name: Warm baseline LCP image cache
+        run: |
+          for image in 'hero-mobile-approved.webp&w=750&q=75' 'hero-desktop-approved.webp&w=640&q=75'; do
+            curl --fail --silent --show-error --output /dev/null \
+              -H 'Accept: image/avif,image/webp,image/*,*/*;q=0.8' \
+              "http://127.0.0.1:3000/_next/image?url=%2Fimages%2F${image}"
+          done
+
       - name: Run mobile Lighthouse
         run: |
           mkdir -p lighthouse-reports
@@ -267,6 +275,14 @@ jobs:
           const missing = await fetch(`${base}/__seo-missing__`);
           assert.equal(missing.status, 404);
           NODE
+
+      - name: Warm candidate LCP image cache
+        run: |
+          for image in 'hero-mobile-approved.webp&w=750&q=60' 'hero-desktop-approved.webp&w=640&q=75'; do
+            curl --fail --silent --show-error --output /dev/null \
+              -H 'Accept: image/avif,image/webp,image/*,*/*;q=0.8' \
+              "http://127.0.0.1:3000/_next/image?url=%2Fimages%2F${image}"
+          done
 
       - name: Run mobile Lighthouse candidate
         run: |
