@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 import nextConfig from '../../next.config';
 import { Hero } from '../../src/features/home/Hero';
+import { MotionReveal } from '../../src/features/home/MotionReveal';
 
 describe('Responsive hero delivery', () => {
   test('selects one mobile or desktop asset with picture art direction', () => {
@@ -26,6 +27,20 @@ describe('Responsive hero delivery', () => {
     expect(markup).toContain('href="tel:+41772366068"');
     expect(markup).toContain('class="hero__content"');
     expect(markup).not.toContain('data-motion-reveal');
+  });
+
+  test('keeps below-fold sections visible before JavaScript hydration', () => {
+    const markup = renderToStaticMarkup(
+      <MotionReveal direction="left" delay={0.08}>
+        Service-Angebote
+      </MotionReveal>,
+    );
+
+    expect(markup).toContain('data-motion-state="idle"');
+    expect(markup).toContain('data-motion-reveal');
+    expect(markup).toContain('--reveal-x:-24px');
+    expect(markup).toContain('--reveal-delay:0.08s');
+    expect(markup).not.toContain('opacity:0');
   });
 
   test('supports the lower mobile image quality without changing desktop quality', () => {
