@@ -40,10 +40,17 @@ function collectSeries() {
     for (const number of Array.from({ length: sampleCount }, (_, index) => index + 1)) {
       const outputPath = join(directory, label + '-' + profile + '-' + number + '.json');
       const argumentsList = [
-        'exec', '--yes', '--package=lighthouse@13.5.0', '--', 'lighthouse', url,
+        'exec',
+        '--yes',
+        '--package=lighthouse@13.5.0',
+        '--',
+        'lighthouse',
+        url,
         '--only-categories=performance,accessibility,seo',
-        '--output=json', '--output-path=' + outputPath,
-        '--chrome-flags=--headless --no-sandbox', '--quiet',
+        '--output=json',
+        '--output-path=' + outputPath,
+        '--chrome-flags=--headless --no-sandbox',
+        '--quiet',
         ...(profile === 'desktop' ? ['--preset=desktop'] : []),
       ];
       console.log(label + ' / ' + profile + ' / run ' + number + '/' + sampleCount);
@@ -54,10 +61,9 @@ function collectSeries() {
     }
     series[profile] = {
       runs,
-      median: Object.fromEntries(metrics.map((metric) => [
-        metric,
-        median(runs.map((result) => result[metric])),
-      ])),
+      median: Object.fromEntries(
+        metrics.map((metric) => [metric, median(runs.map((result) => result[metric]))]),
+      ),
     };
   }
 
@@ -79,8 +85,19 @@ function compareSeries() {
     for (const metric of metrics) {
       const before = baseline.series[profile].median[metric];
       const after = candidate.series[profile].median[metric];
-      rows.push('| ' + profile + ' / ' + metric + ' | ' + before + ' | ' + after + ' | ' +
-        Number((after - before).toFixed(3)) + ' |');
+      rows.push(
+        '| ' +
+          profile +
+          ' / ' +
+          metric +
+          ' | ' +
+          before +
+          ' | ' +
+          after +
+          ' | ' +
+          Number((after - before).toFixed(3)) +
+          ' |',
+      );
     }
   }
 
@@ -109,7 +126,10 @@ function compareSeries() {
     assert.equal(before.seo, 100, profile + ': baseline SEO');
     assert.equal(after.seo, 100, profile + ': candidate SEO');
     assert.ok(after.performance >= before.performance - 2, profile + ': performance regression');
-    assert.ok(after.lcpMs <= before.lcpMs + (profile === 'mobile' ? 100 : 250), profile + ': LCP regression');
+    assert.ok(
+      after.lcpMs <= before.lcpMs + (profile === 'mobile' ? 100 : 250),
+      profile + ': LCP regression',
+    );
     assert.ok(after.cls <= before.cls + 0.01, profile + ': CLS regression');
   }
 
@@ -125,5 +145,7 @@ if (command === 'collect') {
 } else if (command === 'compare') {
   compareSeries();
 } else {
-  throw new Error('Usage: lighthouseAcceptance.mjs <collect|compare> <baseline|candidate|unused> <directory>');
+  throw new Error(
+    'Usage: lighthouseAcceptance.mjs <collect|compare> <baseline|candidate|unused> <directory>',
+  );
 }
