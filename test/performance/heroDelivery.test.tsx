@@ -17,7 +17,7 @@ describe('Responsive hero delivery', () => {
     expect(markup.match(/<source\b/g)).toHaveLength(1);
     expect(markup).toContain('fetchPriority="high"');
     expect(markup).toContain('loading="eager"');
-    expect(markup).toContain('decoding="sync"');
+    expect(markup).toContain('decoding="async"');
   });
 
   test('renders the headline and native phone link without an opacity-zero motion wrapper', () => {
