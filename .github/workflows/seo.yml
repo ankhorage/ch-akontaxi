@@ -192,6 +192,12 @@ jobs:
           assert.match(root.body, /href="tel:\+41772366068"/u);
           assert.match(root.body, /href="#fahrservice"/u);
           assert.match(root.body, /href="#kontakt"/u);
+          assert.match(root.body, /<picture>/u);
+          assert.match(root.body, /media="\(max-width: 860px\)"/u);
+          assert.match(root.body, /hero-mobile-approved\.webp/u);
+          assert.match(root.body, /hero-desktop-approved\.webp/u);
+          assert.match(root.body, /q=60/u);
+          assert.equal((root.body.match(/class="hero__image"/gu) ?? []).length, 1);
 
           const robots = await getText('/robots.txt');
           assert.equal(robots.response.status, 200);
