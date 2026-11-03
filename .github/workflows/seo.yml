@@ -162,7 +162,6 @@ jobs:
           path: lighthouse-reports
           if-no-files-found: error
 
-
       - name: Stop baseline production application
         if: always()
         shell: bash
