@@ -23,7 +23,10 @@ async function verifyHeroImage(profile, viewport, expectedAsset, unexpectedAsset
   const page = await context.newPage();
   const heroRequests = [];
   page.on('request', (request) => {
-    if (request.url().includes('hero-mobile-approved.webp') || request.url().includes('hero-desktop-approved.webp')) {
+    if (
+      request.url().includes('hero-mobile-approved.webp') ||
+      request.url().includes('hero-desktop-approved.webp')
+    ) {
       heroRequests.push(request.url());
     }
   });
@@ -33,12 +36,21 @@ async function verifyHeroImage(profile, viewport, expectedAsset, unexpectedAsset
     assert.equal(await page.locator('.hero__image').count(), 1);
     assert.equal(await page.locator('.hero picture source').count(), 1);
     assert.equal(await page.locator('h1').isVisible(), true);
-    assert.equal(await page.locator('h1').evaluate((element) => getComputedStyle(element).opacity), '1');
+    assert.equal(
+      await page.locator('h1').evaluate((element) => getComputedStyle(element).opacity),
+      '1',
+    );
     assert.equal(await page.locator('.hero__call-action').getAttribute('href'), 'tel:+41772366068');
     await page.locator('.hero__image').evaluate((image) => image.decode());
 
-    assert.ok(heroRequests.some((url) => url.includes(expectedAsset)), profile + ': selected hero was not fetched');
-    assert.ok(heroRequests.every((url) => !url.includes(unexpectedAsset)), profile + ': unnecessary hero was fetched');
+    assert.ok(
+      heroRequests.some((url) => url.includes(expectedAsset)),
+      profile + ': selected hero was not fetched',
+    );
+    assert.ok(
+      heroRequests.every((url) => !url.includes(unexpectedAsset)),
+      profile + ': unnecessary hero was fetched',
+    );
     await screenshot(page, profile + '-hero');
   } finally {
     await context.close();
@@ -113,21 +125,36 @@ test('slow JavaScript does not prevent initial hero paint; scrolled reveals even
   try {
     await page.goto(baseUrl, { waitUntil: 'commit' });
     await page.locator('h1').waitFor({ state: 'visible' });
-    assert.equal(await page.locator('h1').evaluate((element) => getComputedStyle(element).opacity), '1');
+    assert.equal(
+      await page.locator('h1').evaluate((element) => getComputedStyle(element).opacity),
+      '1',
+    );
     await screenshot(page, 'slow-javascript-hero');
 
     const reveal = page.locator('[data-motion-reveal]').last();
-    await page.waitForFunction(() => {
-      const elements = [...document.querySelectorAll('[data-motion-reveal]')];
-      return elements.length > 0 && elements.at(-1)?.getAttribute('data-motion-state') === 'pending';
-    }, undefined, { timeout: 20000 });
+    await page.waitForFunction(
+      () => {
+        const elements = [...document.querySelectorAll('[data-motion-reveal]')];
+        return (
+          elements.length > 0 && elements.at(-1)?.getAttribute('data-motion-state') === 'pending'
+        );
+      },
+      undefined,
+      { timeout: 20000 },
+    );
     await reveal.evaluate((element) => element.scrollIntoView({ block: 'center' }));
-    await page.waitForFunction(() => {
-      const elements = [...document.querySelectorAll('[data-motion-reveal]')];
-      const last = elements.at(-1);
-      return last?.getAttribute('data-motion-state') === 'visible' &&
-        Number(getComputedStyle(last).opacity) > 0.99;
-    }, undefined, { timeout: 10000 });
+    await page.waitForFunction(
+      () => {
+        const elements = [...document.querySelectorAll('[data-motion-reveal]')];
+        const last = elements.at(-1);
+        return (
+          last?.getAttribute('data-motion-state') === 'visible' &&
+          Number(getComputedStyle(last).opacity) > 0.99
+        );
+      },
+      undefined,
+      { timeout: 10000 },
+    );
     await screenshot(page, 'scroll-reveal');
   } finally {
     await context.close();
