@@ -224,11 +224,11 @@ jobs:
       - name: Run mobile Lighthouse candidate
         run: |
           mkdir -p lighthouse-candidate
-          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000             --only-categories=performance,seo             --output=json             --output-path=lighthouse-candidate/mobile.json             --chrome-flags='--headless --no-sandbox'             --quiet
+          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000             --only-categories=performance,accessibility,seo             --output=json             --output-path=lighthouse-candidate/mobile.json             --chrome-flags='--headless --no-sandbox'             --quiet
 
       - name: Run desktop Lighthouse candidate
         run: |
-          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000             --preset=desktop             --only-categories=performance,seo             --output=json             --output-path=lighthouse-candidate/desktop.json             --chrome-flags='--headless --no-sandbox'             --quiet
+          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000             --preset=desktop             --only-categories=performance,accessibility,seo             --output=json             --output-path=lighthouse-candidate/desktop.json             --chrome-flags='--headless --no-sandbox'             --quiet
 
       - name: Summarize candidate
         shell: bash
@@ -239,8 +239,14 @@ jobs:
           const report = (name) => {
             const data = JSON.parse(readFileSync(`lighthouse-candidate/${name}.json`, 'utf8'));
             const audit = (id) => data.audits[id]?.numericValue ?? null;
+            for (const id of ['aria-allowed-attr', 'color-contrast']) {
+              if (data.audits[id]?.score !== 1) {
+                throw new Error(`Accessibility audit ${id} failed for ${name}`);
+              }
+            }
             return {
               performance: Math.round((data.categories.performance?.score ?? 0) * 100),
+              accessibility: Math.round((data.categories.accessibility?.score ?? 0) * 100),
               seo: Math.round((data.categories.seo?.score ?? 0) * 100),
               lcpMs: Math.round(audit('largest-contentful-paint') ?? 0),
               cls: Number((audit('cumulative-layout-shift') ?? 0).toFixed(3)),
@@ -263,13 +269,13 @@ jobs:
           );
 
           const row = (name, value) =>
-            `| ${name} | ${value.performance} | ${value.seo} | ${value.lcpMs} ms | ${value.cls} | ${value.tbtMs} ms | ${value.fcpMs} ms |`;
+            `| ${name} | ${value.performance} | ${value.accessibility} | ${value.seo} | ${value.lcpMs} ms | ${value.cls} | ${value.tbtMs} ms | ${value.fcpMs} ms |`;
 
           const summary = [
             '## AKON TAXI Lighthouse PR candidate',
             '',
-            '| Profile | Performance | SEO | LCP | CLS | TBT | FCP |',
-            '| --- | ---: | ---: | ---: | ---: | ---: | ---: |',
+            '| Profile | Performance | Accessibility | SEO | LCP | CLS | TBT | FCP |',
+            '| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |',
             row('Mobile', candidate.mobile),
             row('Desktop', candidate.desktop),
             '',
