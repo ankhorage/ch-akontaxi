@@ -364,3 +364,142 @@ jobs:
           if [ -f /tmp/akontaxi-next.pid ]; then
             kill "$(cat /tmp/akontaxi-next.pid)" || true
           fi
+
+  paired-performance-acceptance:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact base commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: baseline
+
+      - name: Checkout exact candidate commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: candidate
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.2'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Record Chrome version
+        run: google-chrome --version
+
+      - name: Build exact baseline
+        working-directory: baseline
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+
+      - name: Build exact candidate
+        working-directory: candidate
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+
+      - name: Install isolated Playwright browser driver
+        run: npm install --no-save --no-package-lock --prefix "${RUNNER_TEMP}/akontaxi-browser" playwright@1.56.1
+
+      - name: Start baseline production server
+        working-directory: baseline
+        shell: bash
+        run: |
+          node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000 > "${RUNNER_TEMP}/akontaxi-baseline.log" 2>&1 &
+          echo "$!" > "${RUNNER_TEMP}/akontaxi-baseline.pid"
+          for attempt in {1..45}; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat "${RUNNER_TEMP}/akontaxi-baseline.log"
+          exit 1
+
+      - name: Warm baseline image optimizer
+        run: |
+          for image in 'hero-mobile-approved.webp&w=750&q=75' 'hero-desktop-approved.webp&w=640&q=75'; do
+            curl --fail --silent --show-error --output /dev/null \
+              -H 'Accept: image/avif,image/webp,image/*,*/*;q=0.8' \
+              "http://127.0.0.1:3000/_next/image?url=%2Fimages%2F${image}"
+          done
+
+      - name: Measure five baseline runs per viewport
+        run: node candidate/.github/scripts/lighthouseAcceptance.mjs collect baseline performance-artifacts/lighthouse
+
+      - name: Stop baseline server before candidate measurement
+        shell: bash
+        run: |
+          kill "$(cat "${RUNNER_TEMP}/akontaxi-baseline.pid")"
+          for attempt in {1..20}; do
+            if ! curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo 'Baseline production server did not stop'
+          exit 1
+
+      - name: Start candidate production server
+        working-directory: candidate
+        shell: bash
+        run: |
+          node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000 > "${RUNNER_TEMP}/akontaxi-candidate.log" 2>&1 &
+          echo "$!" > "${RUNNER_TEMP}/akontaxi-candidate.pid"
+          for attempt in {1..45}; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat "${RUNNER_TEMP}/akontaxi-candidate.log"
+          exit 1
+
+      - name: Warm candidate image optimizer
+        run: |
+          for image in 'hero-mobile-approved.webp&w=750&q=60' 'hero-desktop-approved.webp&w=640&q=75'; do
+            curl --fail --silent --show-error --output /dev/null \
+              -H 'Accept: image/avif,image/webp,image/*,*/*;q=0.8' \
+              "http://127.0.0.1:3000/_next/image?url=%2Fimages%2F${image}"
+          done
+
+      - name: Measure five candidate runs per viewport
+        run: node candidate/.github/scripts/lighthouseAcceptance.mjs collect candidate performance-artifacts/lighthouse
+
+      - name: Test mobile, desktop, no-JS, reduced motion and slow hydration in Chrome
+        env:
+          AKON_BROWSER_ARTIFACTS: performance-artifacts/browser
+        run: |
+          AKON_PLAYWRIGHT_MODULE="file://${RUNNER_TEMP}/akontaxi-browser/node_modules/playwright/index.mjs" \
+            node --test candidate/.github/scripts/browserAcceptance.mjs
+
+      - name: Compare matched-environment medians and enforce guardrails
+        run: node candidate/.github/scripts/lighthouseAcceptance.mjs compare unused performance-artifacts/lighthouse
+
+      - name: Upload acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paired-performance-acceptance
+          path: performance-artifacts
+          if-no-files-found: warn
+
+      - name: Stop candidate production server
+        if: always()
+        shell: bash
+        run: |
+          if test -f "${RUNNER_TEMP}/akontaxi-candidate.pid"; then
+            kill "$(cat "${RUNNER_TEMP}/akontaxi-candidate.pid")" || true
+          fi
+          if test -f "${RUNNER_TEMP}/akontaxi-baseline.pid"; then
+            kill "$(cat "${RUNNER_TEMP}/akontaxi-baseline.pid")" || true
+          fi

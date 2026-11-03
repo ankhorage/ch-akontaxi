@@ -6,5 +6,7 @@ export default createKnipConfig({
     'eslint.config.mjs',
     'eslint.local.config.mjs',
     'prettier.local.config.js',
+    '.github/scripts/browserAcceptance.mjs',
+    '.github/scripts/lighthouseAcceptance.mjs',
   ],
 });
