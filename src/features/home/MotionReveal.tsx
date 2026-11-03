@@ -1,6 +1,6 @@
 'use client';
 
-import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, type ReactNode, useEffect, useRef } from 'react';
 
 interface MotionRevealProps {
   readonly children: ReactNode;
@@ -10,7 +10,7 @@ interface MotionRevealProps {
   readonly distance?: number;
 }
 
-/*** Reveal below-the-fold content once, without a heavyweight animation runtime. */
+/*** Progressively enhance SSR-visible sections with one viewport reveal. */
 export function MotionReveal({
   children,
   className,
@@ -19,30 +19,25 @@ export function MotionReveal({
   distance = 24,
 }: MotionRevealProps) {
   const elementRef = useRef<HTMLDivElement>(null);
-  const [phase, setPhase] = useState<'idle' | 'pending' | 'visible'>('idle');
-
   useEffect(() => {
     const element = elementRef.current;
-    if (element === null) return;
-
     if (
+      element === null ||
       !('IntersectionObserver' in window) ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      setPhase('visible');
+    )
       return;
-    }
 
-    setPhase('pending');
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
-          setPhase('visible');
+          element.dataset.motionState = 'visible';
           observer.disconnect();
         }
       },
       { threshold: 0.18 },
     );
+    element.dataset.motionState = 'pending';
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
@@ -58,15 +53,8 @@ export function MotionReveal({
     '--reveal-y': `${y}px`,
     '--reveal-delay': `${delay}s`,
   };
-
   return (
-    <div
-      ref={elementRef}
-      className={className}
-      data-motion-reveal
-      data-motion-state={phase}
-      style={style}
-    >
+    <div ref={elementRef} className={className} data-motion-reveal style={style}>
       {children}
     </div>
   );
