@@ -190,15 +190,7 @@ a {
 
 .hero__image {
   object-fit: cover;
-}
-
-.hero__image--desktop {
-  display: block;
   object-position: 50% 55%;
-}
-
-.hero__image--mobile {
-  display: none;
 }
 
 .hero__overlay {
@@ -701,17 +693,12 @@ a {
     min-height: 740px;
   }
 
-  .hero__image--desktop {
-    display: none;
-  }
-
   .hero__media,
   .hero__overlay {
     bottom: var(--hero-actions-reserve);
   }
 
-  .hero__image--mobile {
-    display: block;
+  .hero__image {
     object-position: 50% 4%;
   }
 
