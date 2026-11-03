@@ -47,6 +47,16 @@ jobs:
   lighthouse-baseline:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout baseline commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || 'main' }}
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.2'
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -55,10 +65,32 @@ jobs:
       - name: Record browser version
         run: google-chrome --version
 
+      - name: Install baseline dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build baseline production application
+        run: bun run build
+
+      - name: Start baseline production application
+        shell: bash
+        run: |
+          bun run start -- --hostname 127.0.0.1 --port 3000 > /tmp/akontaxi-baseline-next.log 2>&1 &
+          echo "$!" > /tmp/akontaxi-baseline-next.pid
+
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+
+          cat /tmp/akontaxi-baseline-next.log
+          exit 1
+
       - name: Run mobile Lighthouse
         run: |
           mkdir -p lighthouse-reports
-          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse https://akontaxi.ch \
+          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000 \
             --only-categories=performance,seo \
             --output=json \
             --output-path=lighthouse-reports/mobile.json \
@@ -67,7 +99,7 @@ jobs:
 
       - name: Run desktop Lighthouse
         run: |
-          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse https://akontaxi.ch \
+          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000 \
             --preset=desktop \
             --only-categories=performance,seo \
             --output=json \
@@ -97,7 +129,7 @@ jobs:
           const baseline = {
             measuredAt: new Date().toISOString(),
             lighthouseVersion: '13.5.0',
-            url: 'https://akontaxi.ch',
+            url: 'http://127.0.0.1:3000',
             mobile: report('mobile'),
             desktop: report('desktop'),
           };
@@ -115,6 +147,7 @@ jobs:
             row('Mobile', baseline.mobile),
             row('Desktop', baseline.desktop),
             '',
+            'Baseline measures the protected main/base SHA in the same local production-server configuration as the candidate.',
             'Lighthouse is a lab measurement. TBT is recorded as a lab diagnostic and is not INP.',
           ].join('\n');
 
@@ -128,6 +161,15 @@ jobs:
           name: lighthouse-baseline
           path: lighthouse-reports
           if-no-files-found: error
+
+
+      - name: Stop baseline production application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/akontaxi-baseline-next.pid ]; then
+            kill "$(cat /tmp/akontaxi-baseline-next.pid)" || true
+          fi
 
   lighthouse-candidate:
     runs-on: ubuntu-latest
