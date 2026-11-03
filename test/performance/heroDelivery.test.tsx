@@ -36,7 +36,7 @@ describe('Responsive hero delivery', () => {
       </MotionReveal>,
     );
 
-    expect(markup).toContain('data-motion-state="idle"');
+    expect(markup).not.toContain('data-motion-state="pending"');
     expect(markup).toContain('data-motion-reveal');
     expect(markup).toContain('--reveal-x:-24px');
     expect(markup).toContain('--reveal-delay:0.08s');
