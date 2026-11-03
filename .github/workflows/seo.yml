@@ -99,7 +99,7 @@ jobs:
         run: |
           mkdir -p lighthouse-reports
           npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000 \
-            --only-categories=performance,seo \
+            --only-categories=performance,accessibility,seo \
             --output=json \
             --output-path=lighthouse-reports/mobile.json \
             --chrome-flags='--headless --no-sandbox' \
@@ -109,7 +109,7 @@ jobs:
         run: |
           npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000 \
             --preset=desktop \
-            --only-categories=performance,seo \
+            --only-categories=performance,accessibility,seo \
             --output=json \
             --output-path=lighthouse-reports/desktop.json \
             --chrome-flags='--headless --no-sandbox' \
@@ -126,6 +126,7 @@ jobs:
             const audit = (id) => data.audits[id]?.numericValue ?? null;
             return {
               performance: Math.round((data.categories.performance?.score ?? 0) * 100),
+              accessibility: Math.round((data.categories.accessibility?.score ?? 0) * 100),
               seo: Math.round((data.categories.seo?.score ?? 0) * 100),
               lcpMs: Math.round(audit('largest-contentful-paint') ?? 0),
               cls: Number((audit('cumulative-layout-shift') ?? 0).toFixed(3)),
@@ -145,13 +146,13 @@ jobs:
           writeFileSync('lighthouse-reports/baseline.json', `${JSON.stringify(baseline, null, 2)}\n`);
 
           const row = (name, value) =>
-            `| ${name} | ${value.performance} | ${value.seo} | ${value.lcpMs} ms | ${value.cls} | ${value.tbtMs} ms | ${value.fcpMs} ms |`;
+            `| ${name} | ${value.performance} | ${value.accessibility} | ${value.seo} | ${value.lcpMs} ms | ${value.cls} | ${value.tbtMs} ms | ${value.fcpMs} ms |`;
 
           const summary = [
             '## AKON TAXI Lighthouse baseline',
             '',
-            '| Profile | Performance | SEO | LCP | CLS | TBT | FCP |',
-            '| --- | ---: | ---: | ---: | ---: | ---: | ---: |',
+            '| Profile | Performance | Accessibility | SEO | LCP | CLS | TBT | FCP |',
+            '| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |',
             row('Mobile', baseline.mobile),
             row('Desktop', baseline.desktop),
             '',
