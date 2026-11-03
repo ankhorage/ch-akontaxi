@@ -16,7 +16,7 @@ export function Hero() {
   });
   const { props: desktopImage } = getImageProps({
     alt: '',
-    decoding: 'sync',
+    decoding: 'async',
     fetchPriority: 'high',
     fill: true,
     loading: 'eager',
