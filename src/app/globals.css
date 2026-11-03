@@ -1,6 +1,6 @@
 :root {
   --yellow: #ffd100;
-  --yellow-strong: #e5bc00;
+  --yellow-strong: #796000;
   --ink: #111;
   --ink-soft: #292929;
   --paper: #f6f6f2;
@@ -18,6 +18,7 @@
     --ink: #f7f7f2;
     --ink-soft: #deded8;
     --paper: #101010;
+    --yellow-strong: #e5bc00;
     --white: #171717;
     --muted: #aaa9a2;
     --line: rgb(255 255 255 / 12%);
