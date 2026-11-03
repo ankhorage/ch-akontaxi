@@ -434,7 +434,7 @@ jobs:
           done
 
       - name: Measure five baseline runs per viewport
-        run: node candidate/test/performance/lighthouseAcceptance.mjs collect baseline performance-artifacts/lighthouse
+        run: node candidate/.github/scripts/lighthouseAcceptance.mjs collect baseline performance-artifacts/lighthouse
 
       - name: Stop baseline server before candidate measurement
         shell: bash
@@ -473,17 +473,17 @@ jobs:
           done
 
       - name: Measure five candidate runs per viewport
-        run: node candidate/test/performance/lighthouseAcceptance.mjs collect candidate performance-artifacts/lighthouse
+        run: node candidate/.github/scripts/lighthouseAcceptance.mjs collect candidate performance-artifacts/lighthouse
 
       - name: Test mobile, desktop, no-JS, reduced motion and slow hydration in Chrome
         env:
           AKON_BROWSER_ARTIFACTS: performance-artifacts/browser
         run: |
           AKON_PLAYWRIGHT_MODULE="file://${RUNNER_TEMP}/akontaxi-browser/node_modules/playwright/index.mjs" \
-            node --test candidate/test/performance/browserAcceptance.mjs
+            node --test candidate/.github/scripts/browserAcceptance.mjs
 
       - name: Compare matched-environment medians and enforce guardrails
-        run: node candidate/test/performance/lighthouseAcceptance.mjs compare unused performance-artifacts/lighthouse
+        run: node candidate/.github/scripts/lighthouseAcceptance.mjs compare unused performance-artifacts/lighthouse
 
       - name: Upload acceptance evidence
         if: always()
