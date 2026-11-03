@@ -22,13 +22,9 @@ export function SiteFooter() {
         ))}
       </nav>
       <div className="site-footer__bottom">
-        <span>
-          © 2026 {BUSINESS.name} · Inhaber: {BUSINESS.legal.owner}
-        </span>
-        <nav className="site-footer__legal" aria-label="Rechtliche Informationen">
-          <Link href="/impressum">Impressum</Link>
-          <Link href="/impressum#datenschutz">Datenschutz</Link>
-        </nav>
+        <p className="site-footer__legal">
+          © 2026 {BUSINESS.name} · <Link href="/impressum">Impressum</Link>
+        </p>
         <p className="site-footer__credit">
           {'design & development by '}
           <a href="https://ankhorage.com/" target="_blank" rel="noopener noreferrer">

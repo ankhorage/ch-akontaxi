@@ -1,22 +1,25 @@
-/*** Describe only the tracking behavior of the deployed, explicitly configured build. */
+/*** Inform visitors about actual contact and website processing without advertising absent services. */
 export function PrivacyNotice() {
   const measurementEnabled = process.env.GOOGLE_ADS_MEASUREMENT_ENABLED === 'true';
 
   return (
     <section className="imprint-page__section" id="datenschutz" aria-labelledby="privacy-title">
       <h2 id="privacy-title">Datenschutz</h2>
+      <p>
+        Für den sicheren Betrieb dieser Website werden technisch notwendige Verbindungsdaten
+        verarbeitet, beispielsweise die IP-Adresse und der Zeitpunkt des Seitenaufrufs.
+      </p>
+      <p>
+        Wenn Sie uns telefonisch oder per E-Mail kontaktieren, verwenden wir Ihre Angaben zur
+        Bearbeitung Ihrer Anfrage. Bei Fragen zur Bearbeitung Ihrer Daten oder zu Ihren
+        Datenschutzrechten erreichen Sie uns über die oben genannten Kontaktmöglichkeiten.
+      </p>
       {measurementEnabled ? (
         <>
           <p>
-            Nur mit Ihrer Einwilligung laden wir Google Ads für Werbe- und Anrufmessung sowie Vercel
-            Analytics und Speed Insights für Nutzungsstatistiken. Dazu können Telefonklicks und
-            Anrufe über die Website gemessen werden. Das bedeutet nicht, dass jeder Klick ein
-            tatsächlich geführtes Gespräch oder eine Buchung ist.
-          </p>
-          <p>
-            Ohne Zustimmung laden wir diese optionalen Messdienste nicht. Die Telefonnummer
-            funktioniert unabhängig von Ihrer Entscheidung. Über «Datenschutz-Einstellungen» können
-            Sie Ihre Einwilligung jederzeit ändern oder widerrufen.
+            Mit Ihrer Einwilligung nutzen wir Google Ads zur Werbe- und Anrufmessung sowie Vercel
+            Analytics und Speed Insights zur Nutzungsanalyse. Sie können Ihre Auswahl jederzeit
+            unter «Datenschutz-Einstellungen» ändern oder widerrufen.
           </p>
           <p>
             Weitere Informationen zur Datenverarbeitung durch Google finden Sie in den{' '}
@@ -30,20 +33,7 @@ export function PrivacyNotice() {
             .
           </p>
         </>
-      ) : (
-        <>
-          <p>
-            Wir haben die optionale Werbe- und Nutzungsanalyse derzeit deaktiviert. Es werden keine
-            Google-Ads-Tracking-Tags oder Vercel-Analytics-/Speed-Insights-Skripte geladen;
-            Telefonklicks und Website-Anrufe werden nicht als Werbe-Conversions gemessen.
-          </p>
-          <p>
-            Die Website und die Telefonnummer bleiben ohne Tracking nutzbar. Für Bereitstellung und
-            Sicherheit der Website können weiterhin technisch notwendige Verbindungsdaten durch den
-            Hosting-Anbieter verarbeitet werden.
-          </p>
-        </>
-      )}
+      ) : null}
     </section>
   );
 }

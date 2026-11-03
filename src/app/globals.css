@@ -511,11 +511,17 @@ a {
 }
 
 .site-footer__bottom {
-  align-items: center;
+  align-items: baseline;
   border-top: 1px solid var(--line);
   display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
   justify-content: space-between;
   padding-top: 20px;
+}
+
+.site-footer__legal {
+  margin: 0;
 }
 
 .site-footer__credit {
@@ -523,11 +529,16 @@ a {
 }
 
 .site-footer__legal a {
-  color: var(--ink);
-  font-weight: 750;
+  color: inherit;
+  font-weight: inherit;
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--yellow) 55%, transparent);
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
   text-underline-offset: 3px;
+}
+
+.site-footer__legal a:hover {
+  color: var(--ink);
 }
 
 .consent-manager {
