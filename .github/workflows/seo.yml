@@ -47,6 +47,16 @@ jobs:
   lighthouse-baseline:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout baseline commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || 'main' }}
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.2'
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -55,11 +65,41 @@ jobs:
       - name: Record browser version
         run: google-chrome --version
 
+      - name: Install baseline dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build baseline production application
+        run: bun run build
+
+      - name: Start baseline production application
+        shell: bash
+        run: |
+          bun run start -- --hostname 127.0.0.1 --port 3000 > /tmp/akontaxi-baseline-next.log 2>&1 &
+          echo "$!" > /tmp/akontaxi-baseline-next.pid
+
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+
+          cat /tmp/akontaxi-baseline-next.log
+          exit 1
+
+      - name: Warm baseline LCP image cache
+        run: |
+          for image in 'hero-mobile-approved.webp&w=750&q=75' 'hero-desktop-approved.webp&w=640&q=75'; do
+            curl --fail --silent --show-error --output /dev/null \
+              -H 'Accept: image/avif,image/webp,image/*,*/*;q=0.8' \
+              "http://127.0.0.1:3000/_next/image?url=%2Fimages%2F${image}"
+          done
+
       - name: Run mobile Lighthouse
         run: |
           mkdir -p lighthouse-reports
-          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse https://akontaxi.ch \
-            --only-categories=performance,seo \
+          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000 \
+            --only-categories=performance,accessibility,seo \
             --output=json \
             --output-path=lighthouse-reports/mobile.json \
             --chrome-flags='--headless --no-sandbox' \
@@ -67,9 +107,9 @@ jobs:
 
       - name: Run desktop Lighthouse
         run: |
-          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse https://akontaxi.ch \
+          npm exec --yes --package=lighthouse@13.5.0 -- lighthouse http://127.0.0.1:3000 \
             --preset=desktop \
-            --only-categories=performance,seo \
+            --only-categories=performance,accessibility,seo \
             --output=json \
             --output-path=lighthouse-reports/desktop.json \
             --chrome-flags='--headless --no-sandbox' \
@@ -86,6 +126,7 @@ jobs:
             const audit = (id) => data.audits[id]?.numericValue ?? null;
             return {
               performance: Math.round((data.categories.performance?.score ?? 0) * 100),
+              accessibility: Math.round((data.categories.accessibility?.score ?? 0) * 100),
               seo: Math.round((data.categories.seo?.score ?? 0) * 100),
               lcpMs: Math.round(audit('largest-contentful-paint') ?? 0),
               cls: Number((audit('cumulative-layout-shift') ?? 0).toFixed(3)),
@@ -97,7 +138,7 @@ jobs:
           const baseline = {
             measuredAt: new Date().toISOString(),
             lighthouseVersion: '13.5.0',
-            url: 'https://akontaxi.ch',
+            url: 'http://127.0.0.1:3000',
             mobile: report('mobile'),
             desktop: report('desktop'),
           };
@@ -105,16 +146,17 @@ jobs:
           writeFileSync('lighthouse-reports/baseline.json', `${JSON.stringify(baseline, null, 2)}\n`);
 
           const row = (name, value) =>
-            `| ${name} | ${value.performance} | ${value.seo} | ${value.lcpMs} ms | ${value.cls} | ${value.tbtMs} ms | ${value.fcpMs} ms |`;
+            `| ${name} | ${value.performance} | ${value.accessibility} | ${value.seo} | ${value.lcpMs} ms | ${value.cls} | ${value.tbtMs} ms | ${value.fcpMs} ms |`;
 
           const summary = [
             '## AKON TAXI Lighthouse baseline',
             '',
-            '| Profile | Performance | SEO | LCP | CLS | TBT | FCP |',
-            '| --- | ---: | ---: | ---: | ---: | ---: | ---: |',
+            '| Profile | Performance | Accessibility | SEO | LCP | CLS | TBT | FCP |',
+            '| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |',
             row('Mobile', baseline.mobile),
             row('Desktop', baseline.desktop),
             '',
+            'Baseline measures the protected main/base SHA in the same local production-server configuration as the candidate.',
             'Lighthouse is a lab measurement. TBT is recorded as a lab diagnostic and is not INP.',
           ].join('\n');
 
@@ -128,6 +170,14 @@ jobs:
           name: lighthouse-baseline
           path: lighthouse-reports
           if-no-files-found: error
+
+      - name: Stop baseline production application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/akontaxi-baseline-next.pid ]; then
+            kill "$(cat /tmp/akontaxi-baseline-next.pid)" || true
+          fi
 
   lighthouse-candidate:
     runs-on: ubuntu-latest
@@ -192,6 +242,12 @@ jobs:
           assert.match(root.body, /href="tel:\+41772366068"/u);
           assert.match(root.body, /href="#fahrservice"/u);
           assert.match(root.body, /href="#kontakt"/u);
+          assert.match(root.body, /<picture>/u);
+          assert.match(root.body, /media="\(max-width: 860px\)"/u);
+          assert.match(root.body, /hero-mobile-approved\.webp/u);
+          assert.match(root.body, /hero-desktop-approved\.webp/u);
+          assert.match(root.body, /q=60/u);
+          assert.equal((root.body.match(/class="hero__image"/gu) ?? []).length, 1);
 
           const robots = await getText('/robots.txt');
           assert.equal(robots.response.status, 200);
@@ -220,6 +276,14 @@ jobs:
           const missing = await fetch(`${base}/__seo-missing__`);
           assert.equal(missing.status, 404);
           NODE
+
+      - name: Warm candidate LCP image cache
+        run: |
+          for image in 'hero-mobile-approved.webp&w=750&q=60' 'hero-desktop-approved.webp&w=640&q=75'; do
+            curl --fail --silent --show-error --output /dev/null \
+              -H 'Accept: image/avif,image/webp,image/*,*/*;q=0.8' \
+              "http://127.0.0.1:3000/_next/image?url=%2Fimages%2F${image}"
+          done
 
       - name: Run mobile Lighthouse candidate
         run: |
