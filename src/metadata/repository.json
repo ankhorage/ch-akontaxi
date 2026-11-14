@@ -33,14 +33,10 @@
     ]
   },
   "constraints": {
-    "platforms": [
-      "Modern web browsers and the configured Next.js deployment runtime."
-    ],
+    "platforms": ["Modern web browsers and the configured Next.js deployment runtime."],
     "configuration": [
       "Google Ads and Vercel measurement require the explicit GOOGLE_ADS_MEASUREMENT_ENABLED build-time flag."
     ],
-    "security": [
-      "Optional measurement starts only after explicit visitor consent."
-    ]
+    "security": ["Optional measurement starts only after explicit visitor consent."]
   }
 }
