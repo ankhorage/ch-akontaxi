@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "kind": "website",
+  "title": "AKON TAXI",
+  "summary": "Public taxi website for Wetzikon and the Zürcher Oberland with direct telephone contact.",
+  "purpose": "Give local passengers clear service, vehicle, trust, privacy, and contact information and make the taxi company reachable without an account or booking platform.",
+  "domain": "local passenger transport website",
+  "responsibilities": [
+    "Present the taxi service, operating area, vehicle, contact details, and trust information.",
+    "Provide prominent telephone contact paths for passengers.",
+    "Publish search and social metadata plus structured business data.",
+    "Keep optional advertising and analytics measurement disabled unless configured and explicitly consented to."
+  ],
+  "boundaries": [
+    "Does not operate a dispatch, reservation, payment, or passenger-account system.",
+    "Does not provide a reusable package API for other applications.",
+    "Does not load optional measurement when the build-time measurement flag is disabled."
+  ],
+  "audience": [
+    "Passengers seeking taxi service in Wetzikon and the Zürcher Oberland.",
+    "The AKON TAXI operator maintaining its public web presence."
+  ],
+  "useCases": [
+    "Check available taxi services and the served region.",
+    "Call AKON TAXI directly from a mobile or desktop browser.",
+    "Review contact and privacy information before optional measurement consent."
+  ],
+  "architecture": {
+    "role": "Private Next.js website composed from feature-owned presentation, consent, telephone, and SEO modules.",
+    "invariants": [
+      "Core contact and service content remains usable without optional measurement.",
+      "Consent state gates Google Ads and Vercel measurement before those integrations load."
+    ]
+  },
+  "constraints": {
+    "platforms": ["Modern web browsers and the configured Next.js deployment runtime."],
+    "configuration": [
+      "Google Ads and Vercel measurement require the explicit GOOGLE_ADS_MEASUREMENT_ENABLED build-time flag."
+    ],
+    "security": ["Optional measurement starts only after explicit visitor consent."]
+  }
+}
